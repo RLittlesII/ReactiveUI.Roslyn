@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="ReactiveUI" Version="14.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\ReactiveUI.Analyzers\ReactiveUI.Analyzers.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+    </ItemGroup>
+</Project>
