@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using Splat;
 
 namespace ReactiveUI.Analyzers.Tests.Verifiers
 {
@@ -42,12 +43,14 @@ namespace ReactiveUI.Analyzers.Tests.Verifiers
 
                     var reactive = MetadataReference.CreateFromFile(typeof(Unit).Assembly.Location);
                     var reactiveui = MetadataReference.CreateFromFile(typeof(ReactiveCommand).Assembly.Location);
+                    var splat = MetadataReference.CreateFromFile(typeof(IEnableLogger).Assembly.Location);
                     solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)
                         .AddRuntimeLibrary(projectId, "netstandard.dll")
                         .AddRuntimeLibrary(projectId, "System.Runtime.dll")
                         .AddMetadataReferences(projectId, coreMetaReferences)
                         .AddMetadataReference(projectId, reactive)
-                        .AddMetadataReference(projectId, reactiveui);
+                        .AddMetadataReference(projectId, reactiveui)
+                       .AddMetadataReference(projectId, splat);
 
                     return solution;
                 });

@@ -13,53 +13,6 @@ namespace ReactiveUI.Analyzers.Tests
         InvokeCommandCodeFixTests : CSharpCodeFixTest<InvokeCommandAnalyzer, InvokeCommandCodeFix, XUnitVerifier>
     {
         [Fact]
-        public async Task WhenInconsistentName_AddsExceptionPostfix()
-        {
-            TestCode = @"
-    using ReactiveUI;
-    using System.Reactive;
-    using System.Reactive.Linq;
-    public class InvokeCommandTestData
-    {
-        public InvokeCommandTestData()
-        {
-            Command = ReactiveCommand.Create(() => { });
-
-            Observable
-                .Return(Unit.Default)
-                .InvokeCommand(Command);
-        }
-
-        public ReactiveCommand<Unit, Unit> Command { get; }
-    }";
-
-            ExpectedDiagnostics.Add(
-                new DiagnosticResult(InvokeCommandAnalyzer.Rule.Id, DiagnosticSeverity.Warning)
-                    .WithMessage("CustomError class name should end with Exception")
-                    .WithSpan(1, 14, 1, 25));
-
-            FixedCode = @"
-    using ReactiveUI;
-    using System.Reactive;
-    using System.Reactive.Linq;
-    public class InvokeCommandTestData
-    {
-        public InvokeCommandTestData()
-        {
-            Command = ReactiveCommand.Create(() => { });
-
-            Observable
-                .Return(Unit.Default)
-                .InvokeCommand(this, x => x.Command);
-        }
-
-        public ReactiveCommand<Unit, Unit> Command { get; }
-    }";
-
-            await RunAsync();
-        }
-
-        [Fact]
         public async Task Given_When_Then()
         {
             // Given
