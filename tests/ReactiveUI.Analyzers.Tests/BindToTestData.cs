@@ -1,6 +1,6 @@
 namespace ReactiveUI.Analyzers.Tests
 {
-    public class BindToTestData
+    internal static class BindToTestData
     {
         internal const string Correct = @"
 using ReactiveUI;

@@ -1,19 +1,19 @@
+using System.Collections.Immutable;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ReactiveUI.Analyzers
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(BindToClosureCodeFixProvider)), Shared]
-    public class BindToClosureCodeFixProvider : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InvokeCommandCodeFixProvider)), Shared]
+    public class InvokeCommandCodeFixProvider : CodeFixProvider
     {
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -25,22 +25,24 @@ namespace ReactiveUI.Analyzers
             // Find the type declaration identified by the diagnostic.
             var ancestorsAndSelf = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().ToList();
             var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
-            var declaration = ancestorsAndSelf.OfType<SimpleLambdaExpressionSyntax>().First();
 
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: Title,
-                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: BindToClosureAnalyzer.Rule.Id + BindToClosureAnalyzer.Rule.Title),
+                    createChangedDocument: c => Fixup(context.Document, invocation, c),
+                    equivalenceKey: InvokeCommandAnalyzer.Rule.Id + InvokeCommandAnalyzer.Rule.Title),
                 diagnostic);
         }
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(BindToClosureAnalyzer.Rule.Id);
+        public override ImmutableArray<string> FixableDiagnosticIds { get; }
+            = ImmutableArray.Create(InvokeCommandAnalyzer.Rule.Id);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        private static async Task<Document> Fixup(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
+        private static async Task<Document> Fixup(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
         {
+            var argumentSyntax = invocation.ArgumentList.Arguments.First();
+            var commandName = argumentSyntax.Expression.GetText();
             var arguments = ArgumentList(
                 SeparatedList<ArgumentSyntax>(
                     new SyntaxNodeOrToken[]{
@@ -56,7 +58,7 @@ namespace ReactiveUI.Analyzers
                                     Parameter(
                                         Identifier(
                                             TriviaList(),
-                                            declaration.Parameter.Identifier.Text,
+                                            "x",
                                             TriviaList(
                                                 Space))))
                                .WithArrowToken(
@@ -68,8 +70,8 @@ namespace ReactiveUI.Analyzers
                                .WithExpressionBody(
                                     MemberAccessExpression(
                                         SyntaxKind.SimpleMemberAccessExpression,
-                                        IdentifierName(declaration.Parameter.Identifier),
-                                        IdentifierName(declaration.Body.GetLastToken()))))}));
+                                        IdentifierName("x"),
+                                        IdentifierName(commandName.ToString()))))}));
 
             var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
@@ -77,6 +79,6 @@ namespace ReactiveUI.Analyzers
             return document.WithSyntaxRoot(changed);
         }
 
-        private const string Title = "Fix constant expression";
+        private const string Title = "Use lambda expression syntax";
     }
 }

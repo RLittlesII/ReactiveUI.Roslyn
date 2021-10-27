@@ -10,26 +10,9 @@ namespace ReactiveUI.Analyzers.Tests
 {
     public class InvokeCommandAnalyzerTests : CSharpAnalyzerTest<InvokeCommandAnalyzer, XUnitVerifier>
     {
-        private static string _testCode = @"
-    using ReactiveUI;
-    using System.Reactive;
-    using System.Reactive.Linq;
-    public class InvokeCommandExample
-    {
-        public InvokeCommandExample()
-        {
-            Command = ReactiveCommand.Create(() => { });
-
-            Observable
-                .Return(Unit.Default)
-                .InvokeCommand(Command);
-        }
-
-        public ReactiveCommand<Unit, Unit> Command { get; }
-    }";
-
-        [Fact]
-        public async Task Given_When_Then()
+        [Theory]
+        [InlineData(InvokeCommandTestData.Incorrect)]
+        public async Task Given_When_Then(string code)
         {
             // Given
             var diagnosticResult =
@@ -39,7 +22,7 @@ namespace ReactiveUI.Analyzers.Tests
                     .WithMessage("Use expression lambda overload for property Command");
 
             // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(_testCode, diagnosticResult);
+            await VerifyCS.VerifyAnalyzerAsync(code, diagnosticResult);
         }
     }
 }
