@@ -47,7 +47,9 @@ using static Nuke.Common.IO.PathConstruction;
     },
     ExcludedTargets = new[] { nameof(ICanClean.Clean), nameof(ICanRestoreWithDotNetCore.DotnetToolRestore) }
 )]
-public class ContinuousDelivery : NukeBuild,
+[PrintBuildVersion]
+[PrintCIEnvironment]
+class ContinuousDelivery : NukeBuild,
                                   ICanRestoreWithDotNetCore,
                                   ICanBuildWithDotNetCore,
                                   ICanTestWithDotNetCore,
@@ -60,10 +62,7 @@ public class ContinuousDelivery : NukeBuild,
                                   IGenerateCodeCoverageBadges,
                                   IHaveConfiguration<Configuration>
 {
-    public static int Main()
-    {
-        return Execute<ContinuousDelivery>(x => x.Deliver);
-    }
+    public static int Main() => Execute<ContinuousDelivery>(x => x.Deliver);
 
     [OptionalGitRepository] public GitRepository? GitRepository { get; }
 
@@ -82,7 +81,7 @@ public class ContinuousDelivery : NukeBuild,
        .Before(Deliver)
        .Before(Clean);
 
-    private Target Deliver => _ => _
+    Target Deliver => _ => _
        .DependsOn(Restore)
        .DependsOn(Build)
        .DependsOn(Test)
