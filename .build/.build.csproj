@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <NoWarn>CS0649;CS0169</NoWarn>
+    <IsPackable>False</IsPackable>
+    <NukeTelemetryVersion>1</NukeTelemetryVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GitVersion.Tool" Version="5.6.8" ExcludeAssets="All" />
+    <PackageReference Include="Nuke.Common" Version="5.3.0" />
+    <PackageReference Include="ReportGenerator" Version="4.8.13" ExcludeAssets="All" />
+    <PackageReference Include="Rocket.Surgery.Nuke" Version="0.16.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+      <NukeSpecificationFiles Include="**\*.json" Exclude="bin\**;obj\**" />
+      <NukeExternalFiles Include="**\*.*.ext" Exclude="bin\**;obj\**" />
+      <None Remove="*.csproj.DotSettings;*.ref.*.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+      <Content Include="..\.config\dotnet-tools.json">
+          <Link>dotnet-tools.json</Link>
+      </Content>
+  </ItemGroup>
+
+</Project>

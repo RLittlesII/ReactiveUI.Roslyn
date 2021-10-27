@@ -10,8 +10,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "example\Sample\Sa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn", "src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj", "{2D42C713-24DC-4A1D-9119-83865692DC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn.Tests", "tests\ReactiveUI.Analysis.Roslyn.Tests\ReactiveUI.Analysis.Roslyn.Tests.csproj", "{2BF48D3F-866E-4BED-855F-CA90F91843C0}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{15474A25-E886-4CAC-A1CC-8B7E3074C578}"
 ProjectSection(SolutionItems) = preProject
 	.editorconfig = .editorconfig
@@ -22,6 +20,12 @@ ProjectSection(SolutionItems) = preProject
 	README.md = README.md
 EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = ".build", ".build\.build.csproj", "{60DEE1F4-0B92-4AC5-9EF6-D24909F16C28}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{0D0867EC-7591-4063-8E91-9B6A31D19A29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn.Tests", "test\ReactiveUI.Analysis.Roslyn.Tests\ReactiveUI.Analysis.Roslyn.Tests.csproj", "{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,9 +34,12 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{80E55F45-6E15-4800-90EA-C80150E4D140} = {53225F7D-B972-4BB9-B71C-E1B54D8765B0}
 		{2D42C713-24DC-4A1D-9119-83865692DC77} = {2B33F2B2-B1A8-48AC-9AAF-38DD7832CCA1}
-		{2BF48D3F-866E-4BED-855F-CA90F91843C0} = {4BCAF0EA-A1BB-4786-B1B3-18D703CBF2B0}
+		{60DEE1F4-0B92-4AC5-9EF6-D24909F16C28} = {0D0867EC-7591-4063-8E91-9B6A31D19A29}
+		{53C86565-D7D5-4DC8-B311-A64CA30CEE2D} = {4BCAF0EA-A1BB-4786-B1B3-18D703CBF2B0}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60DEE1F4-0B92-4AC5-9EF6-D24909F16C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60DEE1F4-0B92-4AC5-9EF6-D24909F16C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80E55F45-6E15-4800-90EA-C80150E4D140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80E55F45-6E15-4800-90EA-C80150E4D140}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80E55F45-6E15-4800-90EA-C80150E4D140}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -41,9 +48,9 @@ Global
 		{2D42C713-24DC-4A1D-9119-83865692DC77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D42C713-24DC-4A1D-9119-83865692DC77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D42C713-24DC-4A1D-9119-83865692DC77}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BF48D3F-866E-4BED-855F-CA90F91843C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BF48D3F-866E-4BED-855F-CA90F91843C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BF48D3F-866E-4BED-855F-CA90F91843C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BF48D3F-866E-4BED-855F-CA90F91843C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
