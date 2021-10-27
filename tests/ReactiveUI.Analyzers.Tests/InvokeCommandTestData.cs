@@ -1,9 +1,5 @@
 namespace ReactiveUI.Analyzers.Tests
 {
-    using ReactiveUI;
-    using System.Reactive;
-    using System.Reactive.Linq;
-
     public static class InvokeCommandTestData
     {
         internal const string Correct = @"

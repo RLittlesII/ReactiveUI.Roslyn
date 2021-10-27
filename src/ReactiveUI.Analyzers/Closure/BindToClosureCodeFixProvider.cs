@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace ReactiveUI.Analyzers
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var ancestorsAndSelf = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().ToList();
+            var ancestorsAndSelf = (root?.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf() ?? Array.Empty<SyntaxNode>()).ToList();
             var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
             var declaration = ancestorsAndSelf.OfType<SimpleLambdaExpressionSyntax>().First();
 
@@ -41,6 +42,13 @@ namespace ReactiveUI.Analyzers
 
         private static async Task<Document> Fixup(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
         {
+
+            var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
+            if (rootAsync == null)
+            {
+                return document;
+            }
+
             var arguments = ArgumentList(
                 SeparatedList<ArgumentSyntax>(
                     new SyntaxNodeOrToken[]{
@@ -71,9 +79,7 @@ namespace ReactiveUI.Analyzers
                                         IdentifierName(declaration.Parameter.Identifier),
                                         IdentifierName(declaration.Body.GetLastToken()))))}));
 
-            var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
-
             return document.WithSyntaxRoot(changed);
         }
 

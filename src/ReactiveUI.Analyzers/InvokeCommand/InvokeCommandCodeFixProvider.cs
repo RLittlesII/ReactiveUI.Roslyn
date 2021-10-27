@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 using System.Composition;
 using System.Linq;
 using System.Threading;
@@ -23,7 +24,7 @@ namespace ReactiveUI.Analyzers
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var ancestorsAndSelf = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().ToList();
+            var ancestorsAndSelf = root?.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf() ?? Array.Empty<SyntaxNode>();
             var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
 
             context.RegisterCodeFix(
@@ -41,6 +42,12 @@ namespace ReactiveUI.Analyzers
 
         private static async Task<Document> Fixup(Document document, InvocationExpressionSyntax invocation, CancellationToken cancellationToken)
         {
+            var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
+            if (rootAsync == null)
+            {
+                return document;
+            }
+
             var argumentSyntax = invocation.ArgumentList.Arguments.First();
             var commandName = argumentSyntax.Expression.GetText();
             var arguments = ArgumentList(
@@ -73,7 +80,6 @@ namespace ReactiveUI.Analyzers
                                         IdentifierName("x"),
                                         IdentifierName(commandName.ToString()))))}));
 
-            var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
 
             return document.WithSyntaxRoot(changed);
