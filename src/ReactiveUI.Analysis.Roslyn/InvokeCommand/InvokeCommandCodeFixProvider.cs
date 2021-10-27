@@ -11,7 +11,7 @@ using System.Linq;
 using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace ReactiveUI.Analyzers
+namespace ReactiveUI.Analysis.Roslyn
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InvokeCommandCodeFixProvider)), Shared]
     public class InvokeCommandCodeFixProvider : CodeFixProvider

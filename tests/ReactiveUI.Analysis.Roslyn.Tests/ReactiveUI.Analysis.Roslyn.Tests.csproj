@@ -24,8 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ReactiveUI.Analyzers\ReactiveUI.Analyzers.csproj" />
-      <ProjectReference Include="..\ReactiveUI.Analyzers\ReactiveUI.Analyzers.csproj" />
+      <ProjectReference Include="..\..\src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj" />
     </ItemGroup>
 
 </Project>

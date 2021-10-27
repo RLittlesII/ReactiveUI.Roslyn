@@ -11,7 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace ReactiveUI.Analyzers
+namespace ReactiveUI.Analysis.Roslyn
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(BindToClosureCodeFixProvider)), Shared]
     public class BindToClosureCodeFixProvider : CodeFixProvider

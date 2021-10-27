@@ -8,9 +8,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4BCAF0EA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "example\Sample\Sample.csproj", "{80E55F45-6E15-4800-90EA-C80150E4D140}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analyzers", "src\ReactiveUI.Analyzers\ReactiveUI.Analyzers.csproj", "{2D42C713-24DC-4A1D-9119-83865692DC77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn", "src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj", "{2D42C713-24DC-4A1D-9119-83865692DC77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analyzers.Tests", "tests\ReactiveUI.Analyzers.Tests\ReactiveUI.Analyzers.Tests.csproj", "{2BF48D3F-866E-4BED-855F-CA90F91843C0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn.Tests", "tests\ReactiveUI.Analysis.Roslyn.Tests\ReactiveUI.Analysis.Roslyn.Tests.csproj", "{2BF48D3F-866E-4BED-855F-CA90F91843C0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{15474A25-E886-4CAC-A1CC-8B7E3074C578}"
+ProjectSection(SolutionItems) = preProject
+	.editorconfig = .editorconfig
+	.gitignore = .gitignore
+	AnalyzerReleases.Shipped.md = AnalyzerReleases.Shipped.md
+	AnalyzerReleases.Unshipped.md = AnalyzerReleases.Unshipped.md
+	LICENSE = LICENSE
+	README.md = README.md
+EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

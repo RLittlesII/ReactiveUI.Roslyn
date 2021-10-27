@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace ReactiveUI.Analyzers
+namespace ReactiveUI.Analysis.Roslyn
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class BindToClosureAnalyzer : DiagnosticAnalyzer

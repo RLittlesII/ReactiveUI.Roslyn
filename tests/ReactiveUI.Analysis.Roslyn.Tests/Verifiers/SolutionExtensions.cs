@@ -1,7 +1,7 @@
 using System.IO;
 using Microsoft.CodeAnalysis;
 
-namespace ReactiveUI.Analyzers.Tests.Verifiers
+namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
 {
     public static class SolutionExtensions
     {

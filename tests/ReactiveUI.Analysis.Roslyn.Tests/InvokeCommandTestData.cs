@@ -1,4 +1,4 @@
-namespace ReactiveUI.Analyzers.Tests
+namespace ReactiveUI.Analysis.Roslyn.Tests
 {
     public static class InvokeCommandTestData
     {

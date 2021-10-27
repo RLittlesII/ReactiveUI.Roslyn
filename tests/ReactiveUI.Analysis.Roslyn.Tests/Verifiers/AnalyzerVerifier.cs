@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using Splat;
 
-namespace ReactiveUI.Analyzers.Tests.Verifiers
+namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
 {
     public static partial class AnalyzerVerifier<TAnalyzer>
         where TAnalyzer : DiagnosticAnalyzer, new()

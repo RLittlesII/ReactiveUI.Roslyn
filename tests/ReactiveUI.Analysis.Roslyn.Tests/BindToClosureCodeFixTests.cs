@@ -4,9 +4,9 @@ using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using Xunit;
 using VerifyCS =
-    ReactiveUI.Analyzers.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analyzers.BindToClosureAnalyzer, ReactiveUI.Analyzers.BindToClosureCodeFixProvider>;
+    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.BindToClosureAnalyzer, ReactiveUI.Analysis.Roslyn.BindToClosureCodeFixProvider>;
 
-namespace ReactiveUI.Analyzers.Tests
+namespace ReactiveUI.Analysis.Roslyn.Tests
 {
     public class BindToClosureCodeFixTests : CSharpCodeFixTest<BindToClosureAnalyzer, BindToClosureCodeFixProvider, XUnitVerifier>
     {

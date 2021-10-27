@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace ReactiveUI.Analyzers
+namespace ReactiveUI.Analysis.Roslyn
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class InvokeCommandAnalyzer : DiagnosticAnalyzer
@@ -14,7 +14,7 @@ namespace ReactiveUI.Analyzers
             new("RXUI0001",
                 "Use expression lambda overload",
                 "Use expression lambda overload for property {0}",
-                "Naming",
+                "Usage",
                 DiagnosticSeverity.Warning,
                 true);
 

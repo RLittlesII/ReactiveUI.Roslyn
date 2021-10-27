@@ -3,7 +3,7 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace ReactiveUI.Analyzers.Tests.Verifiers
+namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
 {
     internal static class VerifierHelper
     {
