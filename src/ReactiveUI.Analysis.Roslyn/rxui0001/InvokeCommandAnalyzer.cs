@@ -6,13 +6,11 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace ReactiveUI.Analysis.Roslyn
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class InvokeCommandAnalyzer : ExpressionLambdaAnalyzer
+    public class InvokeCommandAnalyzer : ExpressionLambdaOverloadAnalyzer
     {
         /// <inheritdoc />
         protected override void Analyze(SyntaxNodeAnalysisContext context)
         {
-            // This analyser should only pick up public values.
             var invocationExpression = (InvocationExpressionSyntax) context.Node;
 
             if (invocationExpression.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)
@@ -33,7 +31,6 @@ namespace ReactiveUI.Analysis.Roslyn
                 {
                     context.ReportDiagnostic(diagnostic);
                 }
-
             }
         }
     }
