@@ -1,4 +1,4 @@
-namespace ReactiveUI.Analysis.Roslyn.Tests
+namespace ReactiveUI.Analysis.Roslyn.Tests.RXUI0002
 {
     internal static class BindToTestData
     {

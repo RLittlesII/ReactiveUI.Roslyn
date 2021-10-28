@@ -32,11 +32,11 @@ namespace ReactiveUI.Analysis.Roslyn
                 CodeAction.Create(
                     title: Title,
                     createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: BindToClosureAnalyzer.Rule.Id + BindToClosureAnalyzer.Rule.Title),
+                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title),
                 diagnostic);
         }
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(BindToClosureAnalyzer.Rule.Id);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.Rule.Id);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
