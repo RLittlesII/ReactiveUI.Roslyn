@@ -5,6 +5,7 @@ using System.Collections.Immutable;
 
 namespace ReactiveUI.Analysis.Roslyn
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class UnsupportedExpressionAnalyzer : DiagnosticAnalyzer
     {
         internal static readonly DiagnosticDescriptor Rule =

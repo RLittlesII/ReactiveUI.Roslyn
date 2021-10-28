@@ -16,7 +16,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.RXUI0001
         {
             // Given
             var diagnosticResult =
-                VerifyCS.Diagnostic(ExpressionLambdaAnalyzer.Rule.Id)
+                VerifyCS.Diagnostic(ExpressionLambdaOverloadAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(13, 32, 13, 39)
                    .WithMessage("Use expression lambda overload for property Command");

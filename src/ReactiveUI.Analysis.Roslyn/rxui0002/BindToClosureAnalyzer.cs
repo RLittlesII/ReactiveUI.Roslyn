@@ -6,13 +6,11 @@ using System.Linq;
 
 namespace ReactiveUI.Analysis.Roslyn
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class BindToClosureAnalyzer : UnsupportedExpressionAnalyzer
     {
         /// <inheritdoc />
         protected override void Analyze(SyntaxNodeAnalysisContext context)
         {
-            // This analyser should only pick up public values.
             var invocationExpression = (InvocationExpressionSyntax)context.Node;
 
             if (invocationExpression.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)

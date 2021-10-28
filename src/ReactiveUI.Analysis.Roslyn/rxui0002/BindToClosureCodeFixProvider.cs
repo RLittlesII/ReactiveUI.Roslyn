@@ -14,35 +14,10 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace ReactiveUI.Analysis.Roslyn
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(BindToClosureCodeFixProvider)), Shared]
-    public class BindToClosureCodeFixProvider : CodeFixProvider
+    public class BindToClosureCodeFixProvider : UnsupportedExpressionCodeFixProvider
     {
-        public override async Task RegisterCodeFixesAsync(CodeFixContext context)
+        protected override async Task<Document> Fix(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
         {
-            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-
-            var diagnostic = context.Diagnostics.First();
-            var diagnosticSpan = diagnostic.Location.SourceSpan;
-
-            // Find the type declaration identified by the diagnostic.
-            var ancestorsAndSelf = (root?.FindToken(diagnosticSpan.Start).Parent?.AncestorsAndSelf() ?? Array.Empty<SyntaxNode>()).ToList();
-            var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
-            var declaration = ancestorsAndSelf.OfType<SimpleLambdaExpressionSyntax>().First();
-
-            context.RegisterCodeFix(
-                CodeAction.Create(
-                    title: Title,
-                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title),
-                diagnostic);
-        }
-
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.Rule.Id);
-
-        public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
-
-        private static async Task<Document> Fixup(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
-        {
-
             var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
             if (rootAsync == null)
             {
@@ -82,7 +57,5 @@ namespace ReactiveUI.Analysis.Roslyn
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
             return document.WithSyntaxRoot(changed);
         }
-
-        private const string Title = "Fix constant expression";
     }
 }
