@@ -27,11 +27,11 @@
       <None Include="..\global.json" Condition="Exists('..\global.json')" />
       <None Include="..\nuget.config" Condition="Exists('..\nuget.config')" />
       <None Include="..\azure-pipelines.yml" Condition="Exists('..\azure-pipelines.yml')" />
-      <None Include="..\.github\workflows\*" />
       <None Include="..\Jenkinsfile" Condition="Exists('..\Jenkinsfile')" />
       <None Include="..\appveyor.yml" Condition="Exists('..\appveyor.yml')" />
       <None Include="..\.travis.yml" Condition="Exists('..\.travis.yml')" />
       <None Include="..\GitVersion.yml" Condition="Exists('..\GitVersion.yml')" />
+      <None Include="..\.github\**\*.yml" LinkBase=".github" />
   </ItemGroup>
   
   <ItemGroup>
