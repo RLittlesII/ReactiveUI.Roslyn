@@ -31,12 +31,12 @@ namespace ReactiveUI.Analysis.Roslyn
                 CodeAction.Create(
                     title: Title,
                     createChangedDocument: c => Fixup(context.Document, invocation, c),
-                    equivalenceKey: InvokeCommandAnalyzer.Rule.Id + InvokeCommandAnalyzer.Rule.Title),
+                    equivalenceKey: ExpressionLambdaAnalyzer.Rule.Id + ExpressionLambdaAnalyzer.Rule.Title),
                 diagnostic);
         }
 
         public override ImmutableArray<string> FixableDiagnosticIds { get; }
-            = ImmutableArray.Create(InvokeCommandAnalyzer.Rule.Id);
+            = ImmutableArray.Create(ExpressionLambdaAnalyzer.Rule.Id);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 

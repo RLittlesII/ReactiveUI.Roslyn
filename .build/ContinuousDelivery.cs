@@ -1,25 +1,16 @@
 using JetBrains.Annotations;
-using System;
-using System.Linq;
 using Nuke.Common;
 using Nuke.Common.CI;
 using Nuke.Common.CI.GitHubActions;
 using Nuke.Common.Execution;
 using Nuke.Common.Git;
-using Nuke.Common.IO;
-using Nuke.Common.ProjectModel;
-using Nuke.Common.Tooling;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Tools.MSBuild;
-using Nuke.Common.Utilities.Collections;
 using Rocket.Surgery.Nuke;
 using Rocket.Surgery.Nuke.ContinuousIntegration;
 using Rocket.Surgery.Nuke.DotNetCore;
 using Rocket.Surgery.Nuke.GithubActions;
-using static Nuke.Common.EnvironmentInfo;
-using static Nuke.Common.IO.FileSystemTasks;
-using static Nuke.Common.IO.PathConstruction;
 
 [PublicAPI]
 [CheckBuildProjectConfigurations]
