@@ -39,30 +39,30 @@ using static Nuke.Common.IO.PathConstruction;
     OnPushTags = new[] { "v*" },
     OnPushBranches = new[] { "main", "next" },
     OnPullRequestBranches = new[] { "main", "next" },
-    InvokedTargets = new[] { nameof(Deliver) },
+    InvokedTargets = new[] { nameof(Default) },
     NonEntryTargets = new[]
     {
         nameof(ICIEnvironment.CIEnvironment),
-        nameof(Deliver)
+        nameof(Default)
     },
     ExcludedTargets = new[] { nameof(ICanClean.Clean), nameof(ICanRestoreWithDotNetCore.DotnetToolRestore) }
 )]
 [PrintBuildVersion]
 [PrintCIEnvironment]
 class ContinuousDelivery : NukeBuild,
-                                  ICanRestoreWithDotNetCore,
-                                  ICanBuildWithDotNetCore,
-                                  ICanTestWithDotNetCore,
-                                  ICanPackWithDotNetCore,
-                                  IHaveDataCollector,
-                                  ICanClean,
-                                  ICanUpdateReadme,
-                                  IGenerateCodeCoverageReport,
-                                  IGenerateCodeCoverageSummary,
-                                  IGenerateCodeCoverageBadges,
-                                  IHaveConfiguration<Configuration>
+                           ICanRestoreWithDotNetCore,
+                           ICanBuildWithDotNetCore,
+                           ICanTestWithDotNetCore,
+                           ICanPackWithDotNetCore,
+                           IHaveDataCollector,
+                           ICanClean,
+                           ICanUpdateReadme,
+                           IGenerateCodeCoverageReport,
+                           IGenerateCodeCoverageSummary,
+                           IGenerateCodeCoverageBadges,
+                           IHaveConfiguration<Configuration>
 {
-    public static int Main() => Execute<ContinuousDelivery>(x => x.Deliver);
+    public static int Main() => Execute<ContinuousDelivery>(x => x.Default);
 
     [OptionalGitRepository] public GitRepository? GitRepository { get; }
 
@@ -78,10 +78,10 @@ class ContinuousDelivery : NukeBuild,
     public Target Test => _ => _.Inherit<ICanTestWithDotNetCore>(x => x.CoreTest);
 
     public Target BuildVersion => _ => _.Inherit<IHaveBuildVersion>(x => x.BuildVersion)
-       .Before(Deliver)
+       .Before(Default)
        .Before(Clean);
 
-    Target Deliver => _ => _
+    Target Default => _ => _
        .DependsOn(Restore)
        .DependsOn(Build)
        .DependsOn(Test)
