@@ -26,18 +26,22 @@ namespace ReactiveUI.Analysis.Roslyn
             var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
             var declaration = ancestorsAndSelf.OfType<SimpleLambdaExpressionSyntax>().First();
 
-            context.RegisterCodeFix(
-                CodeAction.Create(
-                    title: Title,
-                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title),
-                diagnostic);
+            RegisterCodeFix(context, invocation, declaration, diagnostic);
         }
+
+        protected virtual void RegisterCodeFix(CodeFixContext context, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, Diagnostic diagnostic) =>
+            context.RegisterCodeFix(
+            CodeAction.Create(
+                title: Title,
+                createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
+                equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title
+            ),
+            diagnostic);
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.Rule.Id);
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        private Task<Document> Fixup(
+        protected Task<Document> Fixup(
             Document document,
             InvocationExpressionSyntax invocation,
             SimpleLambdaExpressionSyntax declaration,
