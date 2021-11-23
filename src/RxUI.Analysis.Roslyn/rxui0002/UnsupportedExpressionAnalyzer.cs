@@ -30,12 +30,12 @@ namespace ReactiveUI.Analysis.Roslyn
             context.RegisterSyntaxNodeAction(action: AnalyzeNode, syntaxKinds: SyntaxKind.InvocationExpression);
         }
 
-        protected virtual void Analyze(SyntaxNodeAnalysisContext context){}
-
         /// <summary>
         /// This analyzer find any unsupported constants in expression syntax.
         /// </summary>
         /// <param name="context">The context.</param>
+        protected virtual void Analyze(SyntaxNodeAnalysisContext context){}
+
         private void AnalyzeNode(SyntaxNodeAnalysisContext context) => Analyze(context);
     }
 }

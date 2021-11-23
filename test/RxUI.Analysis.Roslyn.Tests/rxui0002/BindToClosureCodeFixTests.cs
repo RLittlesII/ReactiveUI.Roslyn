@@ -21,7 +21,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0002
                     .WithMessage(UnsupportedExpressionAnalyzer.Rule.MessageFormat.ToString());
 
             // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(BindToTestData.Incorrect, BindToTestData.Correct, diagnosticResult);
+            await VerifyCS.VerifyCodeFixAsync(BindToTestData.Incorrect, BindToTestData.Correct, diagnosticResult);
         }
     }
 }

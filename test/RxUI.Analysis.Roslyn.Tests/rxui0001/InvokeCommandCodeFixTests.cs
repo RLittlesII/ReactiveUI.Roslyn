@@ -22,7 +22,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0001
                    .WithMessage("Use expression lambda overload for property Command");
 
             // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(incorrect, correct, diagnosticResult);
+            await VerifyCS.VerifyCodeFixAsync(incorrect, correct, diagnosticResult);
         }
     }
 }

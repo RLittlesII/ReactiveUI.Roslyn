@@ -3,10 +3,7 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Immutable;
 using System.Composition;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -14,8 +11,17 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 namespace ReactiveUI.Analysis.Roslyn
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(BindToClosureCodeFixProvider)), Shared]
-    public class BindToClosureCodeFixProvider : UnsupportedExpressionCodeFixProvider
+    public sealed class BindToClosureCodeFixProvider : UnsupportedExpressionCodeFixProvider
     {
+        protected override void RegisterCodeFix(CodeFixContext context, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, Diagnostic diagnostic) =>
+            context.RegisterCodeFix(
+                CodeAction.Create(
+                    title: "BindTo Thing",
+                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
+                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title + "BindTo"
+                ),
+                diagnostic);
+
         protected override async Task<Document> Fix(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
         {
             var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
