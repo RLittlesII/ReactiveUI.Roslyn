@@ -6,7 +6,7 @@ using Xunit;
 using VerifyCS =
     ReactiveUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer, ReactiveUI.Analysis.Roslyn.InvokeCommandCodeFixProvider>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.RXUI0001
+namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0001
 {
     public class InvokeCommandCodeFixTests : CSharpCodeFixTest<InvokeCommandAnalyzer, InvokeCommandCodeFixProvider, XUnitVerifier>
     {

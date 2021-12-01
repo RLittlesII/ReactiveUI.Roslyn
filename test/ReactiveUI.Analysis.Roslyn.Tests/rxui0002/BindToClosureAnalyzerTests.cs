@@ -6,7 +6,7 @@ using Xunit;
 using VerifyCS =
     ReactiveUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.BindToClosureAnalyzer>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.RXUI0002
+namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0002
 {
     public class BindToClosureAnalyzerTests : CSharpAnalyzerTest<BindToClosureAnalyzer, XUnitVerifier>
     {
