@@ -74,6 +74,7 @@ class ContinuousDelivery : NukeBuild,
 
     Target Default => _ => _
        .DependsOn(Restore)
+       .DependsOn(BuildVersion)
        .DependsOn(Build)
        .DependsOn(Test)
        .DependsOn(Pack);

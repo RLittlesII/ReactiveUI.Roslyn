@@ -4,6 +4,7 @@
         <TargetFramework>netcoreapp3.1</TargetFramework>
         <IsPackable>false</IsPackable>
         <LangVersion>latest</LangVersion>
+        <RootNamespace>ReactiveUI.Analysis.Roslyn.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -24,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj" />
+      <ProjectReference Include="..\..\src\RxUI.Analysis.Roslyn\RxUI.Analysis.Roslyn.csproj" />
     </ItemGroup>
 
 </Project>

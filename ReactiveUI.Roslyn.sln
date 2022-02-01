@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{4BCAF0EA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "example\Sample\Sample.csproj", "{80E55F45-6E15-4800-90EA-C80150E4D140}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn", "src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj", "{2D42C713-24DC-4A1D-9119-83865692DC77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxUI.Analysis.Roslyn", "src\RxUI.Analysis.Roslyn\RxUI.Analysis.Roslyn.csproj", "{2D42C713-24DC-4A1D-9119-83865692DC77}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".solution", ".solution", "{15474A25-E886-4CAC-A1CC-8B7E3074C578}"
 ProjectSection(SolutionItems) = preProject
@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = ".build", ".build\.build.csp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".build", ".build", "{0D0867EC-7591-4063-8E91-9B6A31D19A29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUI.Analysis.Roslyn.Tests", "test\ReactiveUI.Analysis.Roslyn.Tests\ReactiveUI.Analysis.Roslyn.Tests.csproj", "{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxUI.Analysis.Roslyn.Tests", "test\RxUI.Analysis.Roslyn.Tests\RxUI.Analysis.Roslyn.Tests.csproj", "{53C86565-D7D5-4DC8-B311-A64CA30CEE2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
