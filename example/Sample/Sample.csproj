@@ -9,6 +9,6 @@
         <PackageReference Include="ReactiveUI" Version="14.*" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\src\ReactiveUI.Analysis.Roslyn\ReactiveUI.Analysis.Roslyn.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+        <ProjectReference Include="..\..\src\RxUI.Analysis.Roslyn\RxUI.Analysis.Roslyn.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     </ItemGroup>
 </Project>

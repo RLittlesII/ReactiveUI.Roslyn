@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("ReactiveUI.Analysis.Roslyn.Tests")]
+[assembly: InternalsVisibleTo("RxUI.Analysis.Roslyn.Tests")]
 
 namespace ReactiveUI.Analysis.Roslyn
 {
