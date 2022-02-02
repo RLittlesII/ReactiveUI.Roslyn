@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <Company>Rocket Surgeons Guild</Company>
         <Copyright>Copyright Rodney Littles, II © $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
@@ -10,12 +9,14 @@
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
+        <NoPackageAnalysis>true</NoPackageAnalysis>
     </PropertyGroup>
-
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-2.21354.7" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-2.21354.7" PrivateAssets="all" />
     </ItemGroup>
-
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\..\AnalyzerReleases.Shipped.md" />
         <AdditionalFiles Include="..\..\AnalyzerReleases.Unshipped.md" />
