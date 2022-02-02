@@ -17,8 +17,6 @@ using System.Linq;
 [PublicAPI]
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
-// [PackageIcon("https://raw.githubusercontent.com/RocketSurgeonsGuild/graphics/master/png/social-square-thrust-rounded.png")]
-[EnsureGitHooks(GitHook.PreCommit)]
 [EnsureReadmeIsUpdated("Readme.md")]
 [DotNetVerbosityMapping]
 [MSBuildVerbosityMapping]
@@ -65,8 +63,6 @@ class ContinuousDelivery : NukeBuild,
 
     public Target Pack => _ => _.Inherit<ICanPackWithDotNetCore>(x => x.CorePack)
        .DependsOn(Clean);
-
-    [ComputedGitVersion] public GitVersion GitVersion { get; } = null!;
 
     public Target Clean => _ => _.Inherit<ICanClean>(x => x.Clean);
     public Target Restore => _ => _.Inherit<ICanRestoreWithDotNetCore>(x => x.CoreRestore);
