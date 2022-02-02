@@ -1,10 +1,13 @@
 name: Sync Labels
+
 on:
+  workflow_call:
   push:
     branches:
       - main
     paths:
       - .github/workflows/sync-labels.yml
+      - merge-labels/**/*.*
       - .github/labels.yml
   schedule:
     - cron: '0 0 * * 4'
@@ -23,14 +26,14 @@ jobs:
           path: .rsg
 
       - name: merge files
-        uses: RocketSurgeonsGuild/actions/merge-labels@v0.2.4
+        uses: RocketSurgeonsGuild/actions/merge-labels@v0.2.6
         with:
           files: '.rsg/.github/labels.yml,.github/labels.yml'
           output: .github/labels.yml
 
       - name: Run Labeler
         if: success()
-        uses: crazy-max/ghaction-github-labeler@v3.1.0
+        uses: crazy-max/ghaction-github-labeler@v3.1.1
         with:
           yaml_file: .github/labels.yml
           skip_delete: false
