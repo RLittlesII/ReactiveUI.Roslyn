@@ -1,6 +1,5 @@
 <Project>
     <PropertyGroup>
-        <Company>Rocket Surgeons Guild</Company>
         <Copyright>Copyright Rodney Littles, II © $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
         <Authors>Rodney Littles, II</Authors>
         <PackageProjectUrl>https://github.com/RLittlesII/ReactiveUI.Roslyn</PackageProjectUrl>
@@ -9,6 +8,16 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
+    <ItemGroup>
+        <GlobalPackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" />
+        <GlobalPackageReference Include="Rocket.Surgery.Build.Metadata" Version="3.3.11" PrivateAssets="All" />
+        <GlobalPackageReference Include="Rocket.Surgery.MSBuild.Metadata" Version="0.3.1" />
+        <GlobalPackageReference Include="Rocket.Surgery.MSBuild.SourceLink" Version="0.3.1" />
+        <GlobalPackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
+        <GlobalPackageReference Include="Rocket.Surgery.MSBuild.CI" Version="0.3.1" />
+        <GlobalPackageReference Include="Rocket.Surgery.MSBuild.GitVersion" Version="0.3.1" />
+        <GlobalPackageReference Include="Rocket.Surgery.MSBuild.JetBrains.Annotations" Version="0.3.1" Condition="'$(MSBuildProjectName)'!='.build'" />
+    </ItemGroup>
     <ItemGroup>
         <None Include="$(MSBuildThisFileDirectory)/.nuke/temp/packageicon.png" Condition="Exists('$(MSBuildThisFileDirectory)/.nuke/temp/packageicon.png')" Pack="true" PackagePath="/images/" Visible="false" />
         <None Include="$(MSBuildThisFileDirectory)/LICENSE" Pack="true" PackagePath="/" Visible="false" />
