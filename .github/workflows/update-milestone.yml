@@ -52,4 +52,4 @@ jobs:
         uses: RocketSurgeonsGuild/actions/sync-milestone@v0.2.6
         with:
           default-label: ':sparkles: mysterious'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
