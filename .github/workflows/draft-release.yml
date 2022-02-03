@@ -3,9 +3,6 @@ name: Create Milestone and Draft Release
 on:
   workflow_call:
     # inputs:
-    secrets:
-      RSG_BOT_TOKEN:
-        required: true
   push:
     branches:
       - main
@@ -68,7 +65,7 @@ jobs:
           dotnet gitreleasemanager create `
             -o "${{ steps.repository.outputs.owner }}" `
             -r "${{ steps.repository.outputs.repository }}" `
-            --token "${{ secrets.RSG_BOT_TOKEN }}" `
+            --token "${{ github.token }}" `
             -m "v${{ steps.gitversion.outputs.majorMinorPatch }}"
 
       - name: Export Changelog

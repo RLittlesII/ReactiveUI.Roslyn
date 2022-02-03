@@ -3,9 +3,6 @@ name: Close Milestone
 on:
   workflow_call:
     # inputs:
-    secrets:
-      RSG_BOT_TOKEN:
-        required: true
   release:
     types:
       - released
@@ -47,7 +44,7 @@ jobs:
         uses: RocketSurgeonsGuild/actions/sync-milestone@v0.2.6
         with:
           default-label: ':sparkles: mysterious'
-          github-token: ${{ secrets.RSG_BOT_TOKEN }}
+          github-token: ${{ github.token }}
 
       - name: Get Repo and Owner
         shell: pwsh
