@@ -1,16 +1,22 @@
 name: Create Milestone and Draft Release
+
 on:
+  workflow_call:
+    # inputs:
   push:
     branches:
       - main
     paths-ignore:
       - '**/*.md'
+  schedule:
+    - cron: '0 0 * * 4'
+
 jobs:
   create_milestone_and_draft_release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.4
+        uses: actions/checkout@v2.4.0
         with:
           fetch-depth: 0
 
@@ -18,25 +24,25 @@ jobs:
         run: git fetch --prune
 
       - name: Install GitVersion
-        uses: gittools/actions/gitversion/setup@v0.9.8
+        uses: gittools/actions/gitversion/setup@v0.9.11
         with:
           versionSpec: '5.x'
 
       - name: Install GitReleaseManager
-        uses: gittools/actions/gitreleasemanager/setup@v0.9.8
+        uses: gittools/actions/gitreleasemanager/setup@v0.9.11
         with:
           versionSpec: '0.11.x'
 
       - name: Use GitVersion
         id: gitversion
-        uses: gittools/actions/gitversion/execute@v0.9.8
+        uses: gittools/actions/gitversion/execute@v0.9.11
 
       - name: Create Milestone
-        uses: WyriHaximus/github-action-create-milestone@0.1.0
+        uses: WyriHaximus/github-action-create-milestone@v1
         with:
           title: v${{ steps.gitversion.outputs.majorMinorPatch }}
         env:
-          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          GITHUB_TOKEN: '${{ github.token }}'
         continue-on-error: true
 
       - name: Get Repo and Owner
@@ -48,10 +54,10 @@ jobs:
           echo "::set-output name=repository::$($parts[1])"
 
       - name: sync milestones
-        uses: RocketSurgeonsGuild/actions/sync-milestone@v0.2.4
+        uses: RocketSurgeonsGuild/actions/sync-milestone@v0.2.6
         with:
           default-label: ':sparkles: mysterious'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ github.token }}
 
       - name: Create Draft Release
         shell: pwsh
@@ -59,7 +65,7 @@ jobs:
           dotnet gitreleasemanager create `
             -o "${{ steps.repository.outputs.owner }}" `
             -r "${{ steps.repository.outputs.repository }}" `
-            --token "${{ secrets.GITHUB_TOKEN }}" `
+            --token "${{ github.token }}" `
             -m "v${{ steps.gitversion.outputs.majorMinorPatch }}"
 
       - name: Export Changelog
@@ -68,5 +74,5 @@ jobs:
           dotnet gitreleasemanager export `
             -o "${{ steps.repository.outputs.owner }}" `
             -r "${{ steps.repository.outputs.repository }}" `
-            --token "${{ secrets.GITHUB_TOKEN }}" `
+            --token "${{ github.token }}" `
             -f CHANGELOG.md

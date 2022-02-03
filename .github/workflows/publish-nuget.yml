@@ -1,10 +1,13 @@
-name: Publish Nuget
+name: Publish Nuget Packages
 
 on:
-  workflow_run:
-    workflows: ['ci']
-    types:
-      - completed
+  workflow_call:
+    # inputs:
+    secrets:
+      RSG_NUGET_API_KEY:
+        required: true
+      RSG_AZURE_DEVOPS:
+        required: false
 
 jobs:
   publish:
@@ -20,20 +23,16 @@ jobs:
         with:
           nuget-version: '5.x'
 
-      - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
-        if: github.event.workflow_run.conclusion == 'success'
+      - uses: actions/download-artifact@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          workflow: ci.yml
-          run_id: ${{ github.event.id }}
           name: nuget
 
       - name: nuget.org
         # continue-on-error: true
-        if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main') && startsWith(github.event.workflow_run.head_branch, 'v') # this is the best approximation for a tag
+        if: startsWith(github.ref, 'refs/tags/') # this is the best approximation for a tag
         env:
           ApiKey: ${{ secrets.NUGET_API_KEY }}
         shell: pwsh
         run: |
           dotnet nuget push **/*.nupkg  --skip-duplicate -s nuget.org --api-key $ENV:ApiKey
+          dotnet nuget push **/*.snupkg --skip-duplicate -s nuget.org --api-key $ENV:ApiKey
