@@ -36,10 +36,13 @@ namespace ReactiveUI.Analysis.Roslyn
                 return;
             }
 
-            foreach (var diagnostic in tokens.Select(token => Diagnostic.Create(Rule, token.GetLocation(), token)))
+            foreach (var diagnostic in tokens.Select(token => Diagnostic.Create(RXUI0002, token.GetLocation(), token)))
             {
                 context.ReportDiagnostic(diagnostic);
             }
         }
+
+        /// <inheritdoc />
+        protected override DiagnosticDescriptor Rule() => RXUI0002;
     }
 }

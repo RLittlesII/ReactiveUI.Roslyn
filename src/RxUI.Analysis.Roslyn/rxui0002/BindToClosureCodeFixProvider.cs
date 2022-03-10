@@ -2,6 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Immutable;
 using System.Composition;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,12 +13,14 @@ namespace ReactiveUI.Analysis.Roslyn
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(BindToClosureCodeFixProvider)), Shared]
     public sealed class BindToClosureCodeFixProvider : UnsupportedExpressionCodeFixProvider
     {
+        public override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.RXUI0002.Id);
+
         protected override void RegisterCodeFix(CodeFixContext context, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, Diagnostic diagnostic) =>
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: "BindTo Thing",
+                    title: Title,
                     createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title + "BindTo"
+                    equivalenceKey: UnsupportedExpressionAnalyzer.RXUI0002.Id + UnsupportedExpressionAnalyzer.RXUI0002.Title + "BindTo"
                 ),
                 diagnostic);
 
@@ -31,14 +34,17 @@ namespace ReactiveUI.Analysis.Roslyn
 
             var arguments = ArgumentList(
                 SeparatedList<ArgumentSyntax>(
-                    new SyntaxNodeOrToken[]{
+                    new SyntaxNodeOrToken[]
+                    {
                         Argument(
-                            ThisExpression()),
+                            ThisExpression()
+                        ),
                         Token(
                             TriviaList(),
                             SyntaxKind.CommaToken,
                             TriviaList(
-                                Space)),
+                                Space
+                            )),
                         Argument(
                             SimpleLambdaExpression(
                                     Parameter(
@@ -46,18 +52,22 @@ namespace ReactiveUI.Analysis.Roslyn
                                             TriviaList(),
                                             declaration.Parameter.Identifier.Text,
                                             TriviaList(
-                                                Space))))
+                                                Space
+                                            ))))
                                .WithArrowToken(
                                     Token(
                                         TriviaList(),
                                         SyntaxKind.EqualsGreaterThanToken,
                                         TriviaList(
-                                            Space)))
+                                            Space
+                                        )))
                                .WithExpressionBody(
                                     MemberAccessExpression(
                                         SyntaxKind.SimpleMemberAccessExpression,
                                         IdentifierName(declaration.Parameter.Identifier),
-                                        IdentifierName(declaration.Body.GetLastToken()))))}));
+                                        IdentifierName(declaration.Body.GetLastToken())
+                                    )))
+                    }));
 
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
             return document.WithSyntaxRoot(changed);

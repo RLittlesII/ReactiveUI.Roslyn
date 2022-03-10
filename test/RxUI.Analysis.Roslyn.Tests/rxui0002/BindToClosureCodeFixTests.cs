@@ -15,10 +15,11 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0002
         {
             // Given
             var diagnosticResult =
-                VerifyCS.Diagnostic(UnsupportedExpressionAnalyzer.Rule.Id)
+                VerifyCS
+                   .Diagnostic(UnsupportedExpressionAnalyzer.RXUI0002.Id)
                     .WithSeverity(DiagnosticSeverity.Error)
                     .WithSpan(12, 26, 12, 36)
-                    .WithMessage(UnsupportedExpressionAnalyzer.Rule.MessageFormat.ToString());
+                    .WithMessage(UnsupportedExpressionAnalyzer.RXUI0002.MessageFormat.ToString());
 
             // When, Then
             await VerifyCS.VerifyCodeFixAsync(BindToTestData.Incorrect, BindToTestData.Correct, diagnosticResult);

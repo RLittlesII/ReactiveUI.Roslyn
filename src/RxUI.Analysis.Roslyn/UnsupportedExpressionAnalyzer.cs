@@ -8,16 +8,9 @@ namespace ReactiveUI.Analysis.Roslyn
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class UnsupportedExpressionAnalyzer : DiagnosticAnalyzer
     {
-        internal static readonly DiagnosticDescriptor Rule =
-            new("RXUI0002",
-                "Unsupported expression type",
-                "Provide a well-formed lambda expression",
-                "Usage",
-                DiagnosticSeverity.Error,
-                true);
+        public UnsupportedExpressionAnalyzer() => SupportedDiagnostics = ImmutableArray.Create(Descriptor());
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
-            ImmutableArray.Create(Rule);
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
 
         public sealed override void Initialize(AnalysisContext context)
         {
@@ -34,8 +27,32 @@ namespace ReactiveUI.Analysis.Roslyn
         /// This analyzer find any unsupported constants in expression syntax.
         /// </summary>
         /// <param name="context">The context.</param>
-        protected virtual void Analyze(SyntaxNodeAnalysisContext context){}
+        protected virtual void Analyze(SyntaxNodeAnalysisContext context) { }
+
+        /// <summary>
+        /// Provides the <see cref="DiagnosticDescriptor"/> that defines the rule for the analyzer.
+        /// </summary>
+        /// <returns>The rule descriptor.</returns>
+        protected abstract DiagnosticDescriptor Rule();
 
         private void AnalyzeNode(SyntaxNodeAnalysisContext context) => Analyze(context);
+
+        internal static DiagnosticDescriptor RXUI0002 { get; } = new(
+            "RXUI0002",
+            "Unsupported expression type.",
+            "Provide a well-formed lambda expression",
+            "Usage",
+            DiagnosticSeverity.Error,
+            true);
+
+        internal static DiagnosticDescriptor RXUI0004 { get; } = new(
+            "RXUI0004",
+            "Unsupported expression missing member access prefix.",
+            "Provide a well-formed lambda expression",
+            "Usage",
+            DiagnosticSeverity.Error,
+            true);
+
+        private DiagnosticDescriptor Descriptor() => Rule();
     }
 }

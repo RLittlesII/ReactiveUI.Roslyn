@@ -46,6 +46,5 @@ namespace Sample
         private Unit _value;
     }
 }";
-
     }
 }
