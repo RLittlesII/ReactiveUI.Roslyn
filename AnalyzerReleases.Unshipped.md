@@ -5,3 +5,4 @@ Rule ID | Category | Severity | Notes
 RXUI0001| Usage    |  Warning | RXUI0001_UseExpressionOverride
 RXUI0002| Usage    |  Error   | RXUI0002_ConstantExpressions
 RXUI0003| Usage    |  Error   | RXUI0003_OutParameterAssignment
+RXUI0004| Usage    |  Error   | RXUI0004_UnsupportedExpression

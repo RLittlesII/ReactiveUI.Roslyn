@@ -15,7 +15,8 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0003
         {
             // Given
             var diagnosticResult =
-                VerifyCS.Diagnostic(OutParameterAssignmentAnalyzer.Rule.Id)
+                VerifyCS
+                   .Diagnostic(OutParameterAssignmentAnalyzer.Rule.Id)
                     .WithSeverity(DiagnosticSeverity.Error)
                     .WithSpan(15, 38, 15, 50)
                     .WithMessage(OutParameterAssignmentAnalyzer.Rule.MessageFormat.ToString());

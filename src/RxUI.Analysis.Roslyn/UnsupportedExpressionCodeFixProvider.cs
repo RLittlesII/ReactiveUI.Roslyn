@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Immutable;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace ReactiveUI.Analysis.Roslyn
 {
     public abstract class UnsupportedExpressionCodeFixProvider : CodeFixProvider
     {
-        private const string Title = "Fix constant expression";
+        protected const string Title = "Add required member access prefix on expression lambda.";
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -29,17 +30,14 @@ namespace ReactiveUI.Analysis.Roslyn
             RegisterCodeFix(context, invocation, declaration, diagnostic);
         }
 
-        protected virtual void RegisterCodeFix(CodeFixContext context, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, Diagnostic diagnostic) =>
-            context.RegisterCodeFix(
-            CodeAction.Create(
-                title: Title,
-                createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title
-            ),
-            diagnostic);
-
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.Rule.Id);
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+
+        protected abstract void RegisterCodeFix(
+            CodeFixContext context,
+            InvocationExpressionSyntax invocation,
+            SimpleLambdaExpressionSyntax declaration,
+            Diagnostic diagnostic
+        );
 
         protected Task<Document> Fixup(
             Document document,
