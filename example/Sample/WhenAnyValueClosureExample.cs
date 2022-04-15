@@ -8,7 +8,7 @@ namespace Sample
     {
         public WhenAnyValueClosureExample()
         {
-            this.WhenAnyValue(x => Value).Subscribe();
+            this.WhenAnyValue(x => x.Value).Subscribe();
             this.WhenAnyValue(x => x.Value, y => Value).Subscribe();
         }
 
