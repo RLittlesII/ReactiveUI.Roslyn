@@ -8,7 +8,7 @@ namespace ReactiveUI.Analysis.Roslyn
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class UnsupportedExpressionAnalyzer : DiagnosticAnalyzer
     {
-        public UnsupportedExpressionAnalyzer() => SupportedDiagnostics = ImmutableArray.Create(Descriptor());
+        protected UnsupportedExpressionAnalyzer() => SupportedDiagnostics = ImmutableArray.Create(Descriptor());
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; }
 

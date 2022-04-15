@@ -25,9 +25,12 @@ namespace ReactiveUI.Analysis.Roslyn
 
             foreach (var syntaxTokens in invocationExpression.ArgumentList.Arguments.Select(argument => argument.ChildNodesAndTokens()))
             {
-                foreach (var diagnostic in syntaxTokens.Where(token => !token.IsKind(SyntaxKind.ThisExpression) &&
-                        !token.IsKind(SyntaxKind.SimpleLambdaExpression))
-                   .Select(token => Diagnostic.Create(Rule, token.GetLocation(), token)))
+                var diagnostics =
+                    syntaxTokens
+                       .Where(token => !token.IsKind(SyntaxKind.ThisExpression) && !token.IsKind(SyntaxKind.SimpleLambdaExpression))
+                       .Select(token => Diagnostic.Create(Rule, token.GetLocation(), token));
+
+                foreach (var diagnostic in diagnostics)
                 {
                     context.ReportDiagnostic(diagnostic);
                 }

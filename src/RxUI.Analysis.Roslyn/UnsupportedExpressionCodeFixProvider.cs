@@ -13,7 +13,7 @@ namespace ReactiveUI.Analysis.Roslyn
 {
     public abstract class UnsupportedExpressionCodeFixProvider : CodeFixProvider
     {
-        protected const string Title = "Add required member access prefix on expression lambda.";
+        protected const string Title = "Add required member access prefix on expression lambda";
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
