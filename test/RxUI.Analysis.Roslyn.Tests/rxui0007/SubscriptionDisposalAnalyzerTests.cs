@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn.Tests.rxui0003;
 using System.Threading.Tasks;
 using Xunit;
 using VerifyCS =
@@ -9,18 +8,18 @@ using VerifyCS =
 
 namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
 {
-    public class SubscriptionDisposalAnalyzerTests : CSharpAnalyzerTest<ToPropertyAssignmentAnalyzer, XUnitVerifier>
+    public class SubscriptionDisposalAnalyzerTests : CSharpAnalyzerTest<SubscriptionDisposalAnalyzer, XUnitVerifier>
     {
         [Theory]
-        [InlineData(ToPropertyTestData.Incorrect)]
+        [InlineData(SubscriptionDisposalTestData.Incorrect)]
         public async Task GivenToPropertySubscription_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
             var diagnosticResult =
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                   .WithSeverity(DiagnosticSeverity.Error)
+                   .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(15, 38, 15, 50)
-                   .WithMessage(OutParameterAssignmentAnalyzer.Rule.MessageFormat.ToString())
+                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString())
                    .WithArguments("x => x.Value");
 
             // When, Then
@@ -28,7 +27,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
         }
 
         [Theory]
-        [InlineData(ToPropertyTestData.Correct)]
+        [InlineData(SubscriptionDisposalTestData.Correct)]
         public Task GivenToPropertyAssignment_WhenVerified_ThenNoDiagnosticsReported(string code) =>
             // Given, When, Then
             VerifyCS.VerifyAnalyzerAsync(code);
