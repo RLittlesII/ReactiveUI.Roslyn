@@ -12,18 +12,15 @@ namespace Sample
         {
             Observable
                .Return(Unit.Default)
-               .InvokeCommand(this, x => x.Command)
-               .DisposeWith(Gargabe);
+               .InvokeCommand(this, x => x.Command);
 
             Observable
                .Return(Unit.Default)
-               .Subscribe()
-               .DisposeWith(Gargabe);
+               .Subscribe();
 
             Observable
                .Return(Unit.Default)
-               .ToProperty(this, nameof(Value), out _value)
-               .DisposeWith(Gargabe);
+               .ToProperty(this, nameof(Value), out _value);
 
             Command = ReactiveCommand.Create(() => { });
         }

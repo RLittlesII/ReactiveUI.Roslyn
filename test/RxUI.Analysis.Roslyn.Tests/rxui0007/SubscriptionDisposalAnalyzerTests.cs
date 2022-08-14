@@ -12,7 +12,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
     {
         [Theory]
         [InlineData(SubscriptionDisposalTestData.Incorrect)]
-        public async Task GivenToPropertySubscription_WhenVerified_ThenDiagnosticsReported(string code)
+        public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
             var diagnosticResult =
@@ -28,7 +28,7 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
 
         [Theory]
         [InlineData(SubscriptionDisposalTestData.Correct)]
-        public Task GivenToPropertyAssignment_WhenVerified_ThenNoDiagnosticsReported(string code) =>
+        public Task GivenSubscriptionDisposed_WhenVerified_ThenNoDiagnosticsReported(string code) =>
             // Given, When, Then
             VerifyCS.VerifyAnalyzerAsync(code);
     }
