@@ -19,18 +19,20 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(15, 17, 15, 23)
-                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString())
-                   .WithArguments("x => x.Value");
+                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
+
             var invokeCommandDiagnostic =
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(19, 17, 19, 30)
                    .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
+
             var subscribeDiagnostic =
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(23, 17, 23, 26)
                    .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
+
             var toPropertyDiagnostic =
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
