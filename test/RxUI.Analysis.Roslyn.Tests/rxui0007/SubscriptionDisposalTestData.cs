@@ -18,17 +18,22 @@ namespace Sample
             Observable
                .Return(Unit.Default)
                .InvokeCommand(this, x => x.Command)
-               .DisposeWith(Gargabe);
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
                .Subscribe()
-               .DisposeWith(Gargabe);
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
                .ToProperty(this, nameof(Value), out _value)
-               .DisposeWith(Gargabe);
+               .DisposeWith(Garbage);
+
+            Observable
+               .Return(Unit.Default)
+               .BindTo(this, x => x.Unit)
+               .DisposeWith(Garbage);
 
             Command = ReactiveCommand.Create(() => { });
         }
@@ -38,16 +43,23 @@ namespace Sample
 
         public Unit Value => _value.Value;
 
-        private readonly CompositeDisposable Gargabe = new CompositeDisposable();
+        public Unit Unit
+        {
+            get => _unit;
+            set => this.RaiseAndSetIfChanged(ref _unit, value);
+        }
+
+        private readonly CompositeDisposable Garbage = new CompositeDisposable();
 
         private readonly ObservableAsPropertyHelper<Unit> _value;
+        private Unit _unit;
     }
 }";
-        internal const string Incorrect = @"
-using ReactiveUI;
-using System;
+        internal const string Incorrect = @"using System;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using ReactiveUI;
 
 namespace Sample
 {
@@ -55,6 +67,10 @@ namespace Sample
     {
         public SubscriptionDisposalExample()
         {
+            Observable
+               .Return(Unit.Default)
+               .BindTo(this, x => x.Unit);
+
             Observable
                .Return(Unit.Default)
                .InvokeCommand(this, x => x.Command);
@@ -70,11 +86,21 @@ namespace Sample
             Command = ReactiveCommand.Create(() => { });
         }
 
+
         public ReactiveCommand<Unit, Unit> Command { get; }
 
         public Unit Value => _value.Value;
 
+        public Unit Unit
+        {
+            get => _unit;
+            set => this.RaiseAndSetIfChanged(ref _unit, value);
+        }
+
+        private readonly CompositeDisposable Garbage = new CompositeDisposable();
+
         private readonly ObservableAsPropertyHelper<Unit> _value;
+        private Unit _unit;
     }
 }";
     }

@@ -1,8 +1,8 @@
-using ReactiveUI;
 using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using ReactiveUI;
 
 namespace Sample
 {
@@ -10,6 +10,10 @@ namespace Sample
     {
         public SubscriptionDisposalExample()
         {
+            Observable
+               .Return(Unit.Default)
+               .BindTo(this, x => x.Unit);
+
             Observable
                .Return(Unit.Default)
                .InvokeCommand(this, x => x.Command);
@@ -30,8 +34,15 @@ namespace Sample
 
         public Unit Value => _value.Value;
 
-        private readonly CompositeDisposable Gargabe = new CompositeDisposable();
+        public Unit Unit
+        {
+            get => _unit;
+            set => this.RaiseAndSetIfChanged(ref _unit, value);
+        }
+
+        private readonly CompositeDisposable Garbage = new CompositeDisposable();
 
         private readonly ObservableAsPropertyHelper<Unit> _value;
+        private Unit _unit;
     }
 }

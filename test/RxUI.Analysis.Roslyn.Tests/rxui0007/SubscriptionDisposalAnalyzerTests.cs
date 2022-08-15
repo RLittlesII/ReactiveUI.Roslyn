@@ -15,15 +15,30 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
         public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
-            var diagnosticResult =
+            var bindToDiagnostic =
                 VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
-                   .WithSpan(15, 38, 15, 50)
+                   .WithSpan(15, 17, 15, 23)
                    .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString())
                    .WithArguments("x => x.Value");
+            var invokeCommandDiagnostic =
+                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+                   .WithSeverity(DiagnosticSeverity.Warning)
+                   .WithSpan(19, 17, 19, 30)
+                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
+            var subscribeDiagnostic =
+                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+                   .WithSeverity(DiagnosticSeverity.Warning)
+                   .WithSpan(23, 17, 23, 26)
+                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
+            var toPropertyDiagnostic =
+                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+                   .WithSeverity(DiagnosticSeverity.Warning)
+                   .WithSpan(27, 17, 27, 27)
+                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
 
             // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(code, diagnosticResult);
+            await VerifyCS.VerifyAnalyzerAsync(code, bindToDiagnostic, invokeCommandDiagnostic, subscribeDiagnostic, toPropertyDiagnostic);
         }
 
         [Theory]
