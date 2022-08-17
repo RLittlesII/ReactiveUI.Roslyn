@@ -1,17 +1,18 @@
-using System.IO;
-using System.Linq;
-using System.Reactive;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI;
 using Splat;
+using System.IO;
+using System.Linq;
+using System.Reactive;
+using System.Threading;
+using System.Threading.Tasks;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
+namespace RxUI.Analysis.Roslyn.Tests.Verifiers
 {
     public static partial class CodeFixVerifier<TAnalyzer, TCodeFix>
         where TAnalyzer : DiagnosticAnalyzer, new()

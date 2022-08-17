@@ -51,18 +51,36 @@ namespace ReactiveUI.Analysis.Roslyn
                 return document;
             }
 
+            var invocationSyntax = invocation;
             var expressionSyntax = (MemberAccessExpressionSyntax)declarationSyntax.Expression;
 
-            var disposeWithExpression = ExpressionStatement(
-                    InvocationExpression(IdentifierName(Identifier(TriviaList(Trivia(SkippedTokensTrivia().WithTokens(TokenList(Token(SyntaxKind.DotToken))))),
+            var disposeWithExpressionSyntax = ExpressionStatement(
+                    InvocationExpression(
+                            IdentifierName(
+                                Identifier(
+                                    TriviaList(
+                                        Trivia(SkippedTokensTrivia()
+                                               .WithTokens(TokenList(Token(SyntaxKind.DotToken))))),
                                     "DisposeWith",
                                     TriviaList())))
-                       .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName("Gargabe"))))
+                       .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName("Garbage"))))
                                .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
                                .WithCloseParenToken(Token(SyntaxKind.CloseParenToken))))
                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            var invocationExpressionSyntax = ExpressionStatement(invocation.ReplaceNode(invocation.ArgumentList, disposeWithExpression)).AncestorsAndSelf();
+            var disposeWithExpression = ExpressionStatement(
+                InvocationExpression(
+                    MemberAccessExpression(
+                        SyntaxKind.SimpleMemberAccessExpression,
+                        invocation.Expression,
+                        IdentifierName("DisposeWith")
+                    )));
+
+            var replacement = (InvocationExpressionSyntax)disposeWithExpression.Expression;
+
+            var nodes = disposeWithExpression.DescendantNodesAndSelf().ToList();
+            var invocationExpressionSyntax = invocation.ReplaceNode(invocation.ArgumentList, replacement.ArgumentList);
+            // var invocationExpressionSyntax =  (InvocationExpressionSyntax) disposeWithExpression.Expression;
             var changed = rootAsync.ReplaceNode(declarationSyntax, invocationExpressionSyntax);
             return document.WithSyntaxRoot(changed);
         }

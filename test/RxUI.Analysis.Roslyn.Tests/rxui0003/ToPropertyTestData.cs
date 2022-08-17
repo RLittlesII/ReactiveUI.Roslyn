@@ -1,4 +1,4 @@
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0003
+namespace RxUI.Analysis.Roslyn.Tests.rxui0003
 {
     internal static class ToPropertyTestData
     {

@@ -1,12 +1,12 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS =
-    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer, ReactiveUI.Analysis.Roslyn.InvokeCommandCodeFixProvider>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer, ReactiveUI.Analysis.Roslyn.InvokeCommandCodeFixProvider>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0001
+namespace RxUI.Analysis.Roslyn.Tests.rxui0001
 {
     public class InvokeCommandCodeFixTests : CSharpCodeFixTest<InvokeCommandAnalyzer, InvokeCommandCodeFixProvider, XUnitVerifier>
     {

@@ -1,12 +1,12 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS =
-    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0001
+namespace RxUI.Analysis.Roslyn.Tests.rxui0001
 {
     public class InvokeCommandAnalyzerTests : CSharpAnalyzerTest<InvokeCommandAnalyzer, XUnitVerifier>
     {

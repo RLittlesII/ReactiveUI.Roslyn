@@ -1,12 +1,12 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS =
-    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.BindToClosureAnalyzer>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.BindToClosureAnalyzer>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0002
+namespace RxUI.Analysis.Roslyn.Tests.rxui0002
 {
     public class BindToClosureAnalyzerTests : CSharpAnalyzerTest<BindToClosureAnalyzer, XUnitVerifier>
     {

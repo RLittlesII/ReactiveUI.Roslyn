@@ -1,4 +1,4 @@
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
+namespace RxUI.Analysis.Roslyn.Tests.rxui0007
 {
     internal static class SubscriptionDisposalTestData
     {

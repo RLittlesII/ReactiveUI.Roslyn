@@ -1,10 +1,11 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
-using ReactiveUI.Analysis.Roslyn.Tests.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
+using RxUI.Analysis.Roslyn.Tests.Verifiers;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
+namespace RxUI.Analysis.Roslyn.Tests.rxui0007
 {
     public class SubscriptionDisposableTestData : IEnumerable<object[]>
     {

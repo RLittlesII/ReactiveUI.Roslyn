@@ -1,12 +1,12 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS =
-    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.ToPropertyAssignmentAnalyzer, ReactiveUI.Analysis.Roslyn.ToPropertyAssignmentCodeFixProvider>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.ToPropertyAssignmentAnalyzer, ReactiveUI.Analysis.Roslyn.ToPropertyAssignmentCodeFixProvider>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0003
+namespace RxUI.Analysis.Roslyn.Tests.rxui0003
 {
     public class ToPropertyAssignmentCodeFixTests : CSharpCodeFixTest<ToPropertyAssignmentAnalyzer, ToPropertyAssignmentCodeFixProvider, XUnitVerifier>
     {
