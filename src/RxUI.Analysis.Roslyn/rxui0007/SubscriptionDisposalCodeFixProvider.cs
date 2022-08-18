@@ -68,19 +68,9 @@ namespace ReactiveUI.Analysis.Roslyn
                                .WithCloseParenToken(Token(SyntaxKind.CloseParenToken))))
                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            var disposeWithExpression = ExpressionStatement(
-                InvocationExpression(
-                    MemberAccessExpression(
-                        SyntaxKind.SimpleMemberAccessExpression,
-                        invocation.Expression,
-                        IdentifierName("DisposeWith")
-                    )));
+            var disposeWithSyntaxNodes = disposeWithExpression.AncestorsAndSelf().ToList();
 
-            var replacement = (InvocationExpressionSyntax)disposeWithExpression.Expression;
-
-            var nodes = disposeWithExpression.DescendantNodesAndSelf().ToList();
-            var invocationExpressionSyntax = invocation.ReplaceNode(invocation.ArgumentList, replacement.ArgumentList);
-            // var invocationExpressionSyntax =  (InvocationExpressionSyntax) disposeWithExpression.Expression;
+            var invocationExpressionSyntax = invocation.ReplaceNode(invocation, disposeWithExpression.Expression);
             var changed = rootAsync.ReplaceNode(declarationSyntax, invocationExpressionSyntax);
             return document.WithSyntaxRoot(changed);
         }
