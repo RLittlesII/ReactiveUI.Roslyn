@@ -40,7 +40,7 @@ namespace ReactiveUI.Analysis.Roslyn
                             Argument(
                                 InvocationExpression(IdentifierName(Identifier(TriviaList(), SyntaxKind.NameOfKeyword, "nameof", "nameof", TriviaList())))
                                    .WithArgumentList(
-                                        ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName(expressionSyntax.Name.Identifier))))
+                                        ArgumentList(SingletonSeparatedList(Argument(IdentifierName(expressionSyntax.Name.Identifier))))
                                            .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
                                            .WithCloseParenToken(Token(SyntaxKind.CloseParenToken)))),
                             Token(TriviaList(),

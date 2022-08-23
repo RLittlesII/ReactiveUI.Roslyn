@@ -1,6 +1,8 @@
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using VerifyCS =
@@ -11,18 +13,9 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
     public class SubscriptionDisposalCodeFixTests : CSharpCodeFixTest<SubscriptionDisposalAnalyzer, SubscriptionDisposalCodeFixProvider, XUnitVerifier>
     {
         [Theory]
-        [InlineData(SubscriptionDisposalTestData.Incorrect, SubscriptionDisposalTestData.Correct)]
-        public async Task GivenSubscriptionNotDisposed_WhenAnalyzed_ThenCodeFixed(string incorrect, string correct)
-        {
-            // Given
-            var diagnosticResult =
-                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                    .WithSeverity(DiagnosticSeverity.Warning)
-                    .WithSpan(15, 38, 15, 50)
-                    .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
-
-            // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(incorrect, correct, diagnosticResult);
-        }
+        [ClassData(typeof(SubscriptionDisposableTestData))]
+        public async Task GivenSubscriptionNotDisposed_WhenAnalyzed_ThenCodeFixed(IEnumerable<DiagnosticResult> results, string incorrect, string correct) =>
+            // Given, When, Then
+            await VerifyCS.VerifyAnalyzerAsync(incorrect, correct, results.ToArray());
     }
 }

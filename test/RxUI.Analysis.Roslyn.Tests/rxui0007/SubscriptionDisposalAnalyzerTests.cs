@@ -1,6 +1,9 @@
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using VerifyCS =
@@ -8,40 +11,14 @@ using VerifyCS =
 
 namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0007
 {
+    [SuppressMessage("Usage", "xUnit1026:Theory methods should use all of their parameters")]
     public class SubscriptionDisposalAnalyzerTests : CSharpAnalyzerTest<SubscriptionDisposalAnalyzer, XUnitVerifier>
     {
         [Theory]
-        [InlineData(SubscriptionDisposalTestData.Incorrect)]
-        public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(string code)
-        {
-            // Given
-            var bindToDiagnostic =
-                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                   .WithSeverity(DiagnosticSeverity.Warning)
-                   .WithSpan(15, 17, 15, 23)
-                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
-
-            var invokeCommandDiagnostic =
-                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                   .WithSeverity(DiagnosticSeverity.Warning)
-                   .WithSpan(19, 17, 19, 30)
-                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
-
-            var subscribeDiagnostic =
-                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                   .WithSeverity(DiagnosticSeverity.Warning)
-                   .WithSpan(23, 17, 23, 26)
-                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
-
-            var toPropertyDiagnostic =
-                VerifyCS.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
-                   .WithSeverity(DiagnosticSeverity.Warning)
-                   .WithSpan(27, 17, 27, 27)
-                   .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString());
-
-            // When, Then
-            await VerifyCS.VerifyAnalyzerAsync(code, bindToDiagnostic, invokeCommandDiagnostic, subscribeDiagnostic, toPropertyDiagnostic);
-        }
+        [ClassData(typeof(SubscriptionDisposableTestData))]
+        public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(IEnumerable<DiagnosticResult> results, string incorrect, string correct) =>
+            // Given, When, Then
+            await VerifyCS.VerifyAnalyzerAsync(incorrect, results.ToArray());
 
         [Theory]
         [InlineData(SubscriptionDisposalTestData.Correct)]
