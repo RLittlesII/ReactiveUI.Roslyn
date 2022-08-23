@@ -54,24 +54,218 @@ namespace ReactiveUI.Analysis.Roslyn
             var invocationSyntax = invocation;
             var expressionSyntax = (MemberAccessExpressionSyntax)declarationSyntax.Expression;
 
-            var disposeWithExpressionSyntax = ExpressionStatement(
+            var disposeWithExpressionSyntax =
+                InvocationExpression(
+                        IdentifierName(
+                            Identifier(
+                                TriviaList(
+                                    Trivia(SkippedTokensTrivia()
+                                           .WithTokens(TokenList(Token(SyntaxKind.DotToken))))),
+                                "DisposeWith",
+                                TriviaList())))
+                   .WithArgumentList(
+                        ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName("Garbage"))))
+                           .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
+                           .WithCloseParenToken(Token(SyntaxKind.CloseParenToken)));
+
+            var thing = disposeWithExpressionSyntax.ArgumentList;
+            var argumentSyntax = invocation.ArgumentList.Arguments.First();
+            var commandName = argumentSyntax.Expression.GetText();
+            var arguments = ArgumentList(
+                SeparatedList<ArgumentSyntax>(
+                    new SyntaxNodeOrToken[]{
+                        Argument(
+                            ThisExpression()),
+                        Token(
+                            TriviaList(),
+                            SyntaxKind.CommaToken,
+                            TriviaList(
+                                Space)),
+                        Argument(
+                            SimpleLambdaExpression(
+                                    Parameter(
+                                        Identifier(
+                                            TriviaList(),
+                                            "x",
+                                            TriviaList(
+                                                Space))))
+                               .WithArrowToken(
+                                    Token(
+                                        TriviaList(),
+                                        SyntaxKind.EqualsGreaterThanToken,
+                                        TriviaList(
+                                            Space)))
+                               .WithExpressionBody(
+                                    MemberAccessExpression(
+                                        SyntaxKind.SimpleMemberAccessExpression,
+                                        IdentifierName("x"),
+                                        IdentifierName(commandName.ToString()))))}));
+            var stuff = ExpressionStatement(
                     InvocationExpression(
-                            IdentifierName(
-                                Identifier(
-                                    TriviaList(
-                                        Trivia(SkippedTokensTrivia()
-                                               .WithTokens(TokenList(Token(SyntaxKind.DotToken))))),
-                                    "DisposeWith",
-                                    TriviaList())))
-                       .WithArgumentList(ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName("Garbage"))))
+                            MemberAccessExpression(
+                                    SyntaxKind.SimpleMemberAccessExpression,
+                                    InvocationExpression(
+                                            MemberAccessExpression(
+                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                    InvocationExpression(
+                                                            MemberAccessExpression(
+                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                    IdentifierName(
+                                                                        Identifier(
+                                                                            TriviaList(),
+                                                                            "Observable",
+                                                                            TriviaList(
+                                                                                LineFeed
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                    IdentifierName("Return")
+                                                                )
+                                                               .WithOperatorToken(
+                                                                    Token(
+                                                                        TriviaList(
+                                                                            Whitespace("   ")
+                                                                        ),
+                                                                        SyntaxKind.DotToken,
+                                                                        TriviaList()
+                                                                    )
+                                                                )
+                                                        )
+                                                       .WithArgumentList(
+                                                            ArgumentList(
+                                                                    SingletonSeparatedList<ArgumentSyntax>(
+                                                                        Argument(
+                                                                            MemberAccessExpression(
+                                                                                    SyntaxKind.SimpleMemberAccessExpression,
+                                                                                    IdentifierName("Unit"),
+                                                                                    IdentifierName("Default")
+                                                                                )
+                                                                               .WithOperatorToken(
+                                                                                    Token(SyntaxKind.DotToken)
+                                                                                )
+                                                                        )
+                                                                    )
+                                                                )
+                                                               .WithOpenParenToken(
+                                                                    Token(SyntaxKind.OpenParenToken)
+                                                                )
+                                                               .WithCloseParenToken(
+                                                                    Token(
+                                                                        TriviaList(),
+                                                                        SyntaxKind.CloseParenToken,
+                                                                        TriviaList(
+                                                                            LineFeed
+                                                                        )
+                                                                    )
+                                                                )
+                                                        ),
+                                                    IdentifierName("BindTo")
+                                                )
+                                               .WithOperatorToken(
+                                                    Token(
+                                                        TriviaList(
+                                                            Whitespace("   ")
+                                                        ),
+                                                        SyntaxKind.DotToken,
+                                                        TriviaList()
+                                                    )
+                                                )
+                                        )
+                                       .WithArgumentList(
+                                            ArgumentList(
+                                                    SeparatedList<ArgumentSyntax>(
+                                                        new SyntaxNodeOrToken[]
+                                                        {
+                                                            Argument(
+                                                                ThisExpression()
+                                                                   .WithToken(
+                                                                        Token(SyntaxKind.ThisKeyword)
+                                                                    )
+                                                            ),
+                                                            Token(
+                                                                TriviaList(),
+                                                                SyntaxKind.CommaToken,
+                                                                TriviaList(
+                                                                    Space
+                                                                )
+                                                            ),
+                                                            Argument(
+                                                                SimpleLambdaExpression(
+                                                                        Parameter(
+                                                                            Identifier(
+                                                                                TriviaList(),
+                                                                                "x",
+                                                                                TriviaList(
+                                                                                    Space
+                                                                                )
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                   .WithArrowToken(
+                                                                        Token(
+                                                                            TriviaList(),
+                                                                            SyntaxKind.EqualsGreaterThanToken,
+                                                                            TriviaList(
+                                                                                Space
+                                                                            )
+                                                                        )
+                                                                    )
+                                                                   .WithExpressionBody(
+                                                                        MemberAccessExpression(
+                                                                                SyntaxKind.SimpleMemberAccessExpression,
+                                                                                IdentifierName("x"),
+                                                                                IdentifierName("Unit")
+                                                                            )
+                                                                           .WithOperatorToken(
+                                                                                Token(SyntaxKind.DotToken)
+                                                                            )
+                                                                    )
+                                                                   .WithBody(
+                                                                        MemberAccessExpression(
+                                                                                SyntaxKind.SimpleMemberAccessExpression,
+                                                                                IdentifierName("x"),
+                                                                                IdentifierName("Unit")
+                                                                            )
+                                                                           .WithOperatorToken(
+                                                                                Token(SyntaxKind.DotToken)
+                                                                            )
+                                                                    )
+                                                            )
+                                                        }
+                                                    )
+                                                )
+                                               .WithOpenParenToken(
+                                                    Token(SyntaxKind.OpenParenToken)
+                                                )
+                                               .WithCloseParenToken(
+                                                    Token(
+                                                        TriviaList(),
+                                                        SyntaxKind.CloseParenToken,
+                                                        TriviaList(
+                                                            LineFeed
+                                                        )
+                                                    )
+                                                )
+                                        ),
+                                    IdentifierName("DisposeWith")
+                                )
+                               .WithOperatorToken(
+                                    Token(
+                                        TriviaList(
+                                            Whitespace("   ")
+                                        ),
+                                        SyntaxKind.DotToken,
+                                        TriviaList()
+                                    )
+                                )
+                        )
+                       .WithArgumentList(
+                            ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName("Garbage"))))
                                .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
                                .WithCloseParenToken(Token(SyntaxKind.CloseParenToken))))
                .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            var disposeWithSyntaxNodes = disposeWithExpression.AncestorsAndSelf().ToList();
-
-            var invocationExpressionSyntax = invocation.ReplaceNode(invocation, disposeWithExpression.Expression);
-            var changed = rootAsync.ReplaceNode(declarationSyntax, invocationExpressionSyntax);
+            var changed = rootAsync.ReplaceNode(invocation.ArgumentList, ( (InvocationExpressionSyntax)stuff.Expression ).ArgumentList);
             return document.WithSyntaxRoot(changed);
         }
 

@@ -12,7 +12,8 @@ namespace Sample
         {
             Observable
                .Return(Unit.Default)
-               .BindTo(this, x => x.Unit);
+               .BindTo(this, x => x.Unit)
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
