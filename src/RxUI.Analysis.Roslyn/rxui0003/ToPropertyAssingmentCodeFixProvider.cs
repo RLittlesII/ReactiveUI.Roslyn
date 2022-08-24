@@ -1,12 +1,8 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
-using System.Collections.Immutable;
 using System.Composition;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
@@ -44,7 +40,7 @@ namespace ReactiveUI.Analysis.Roslyn
                             Argument(
                                 InvocationExpression(IdentifierName(Identifier(TriviaList(), SyntaxKind.NameOfKeyword, "nameof", "nameof", TriviaList())))
                                    .WithArgumentList(
-                                        ArgumentList(SingletonSeparatedList<ArgumentSyntax>(Argument(IdentifierName(expressionSyntax.Name.Identifier))))
+                                        ArgumentList(SingletonSeparatedList(Argument(IdentifierName(expressionSyntax.Name.Identifier))))
                                            .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
                                            .WithCloseParenToken(Token(SyntaxKind.CloseParenToken)))),
                             Token(TriviaList(),

@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="ReactiveUI" Version="14.*" />
+        <PackageReference Include="ReactiveUI" Version="18.*" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\src\RxUI.Analysis.Roslyn\RxUI.Analysis.Roslyn.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />

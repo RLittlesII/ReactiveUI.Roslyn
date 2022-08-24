@@ -1,5 +1,6 @@
 using ReactiveUI;
 using System.Reactive;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace Sample
@@ -8,7 +9,8 @@ namespace Sample
     {
         public BindToClosureExample() => Observable
            .Return(Unit.Default)
-           .BindTo(this, x => x.Value);
+           .BindTo(this, x => x.Value)
+           .DisposeWith(Garbage);
 
         public Unit Value
         {
@@ -17,5 +19,6 @@ namespace Sample
         }
 
         private Unit _value;
+        private readonly CompositeDisposable Garbage = new CompositeDisposable();
     }
 }
