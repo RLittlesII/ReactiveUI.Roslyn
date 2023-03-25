@@ -15,13 +15,13 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0007
     public class SubscriptionDisposalAnalyzerTests : CSharpAnalyzerTest<SubscriptionDisposalAnalyzer, XUnitVerifier>
     {
         [Theory]
-        [ClassData(typeof(SubscriptionDisposableTestData))]
-        public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(IEnumerable<DiagnosticResult> results, string incorrect, string correct) =>
+        [ClassData(typeof(SubscriptionDisposalTestData))]
+        public async Task GivenSubscription_WhenVerified_ThenDiagnosticsReported(string incorrect, string correct, IEnumerable<DiagnosticResult> results) =>
             // Given, When, Then
             await VerifyCS.VerifyAnalyzerAsync(incorrect, results.ToArray());
 
         [Theory]
-        [InlineData(SubscriptionDisposalTestData.Correct)]
+        [InlineData(SubscriptionTestData.Correct)]
         public Task GivenSubscriptionDisposed_WhenVerified_ThenNoDiagnosticsReported(string code) =>
             // Given, When, Then
             VerifyCS.VerifyAnalyzerAsync(code);

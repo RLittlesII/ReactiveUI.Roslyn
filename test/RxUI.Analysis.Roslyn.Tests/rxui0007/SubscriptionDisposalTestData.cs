@@ -1,107 +1,39 @@
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Testing;
+using ReactiveUI.Analysis.Roslyn;
+using RxUI.Analysis.Roslyn.Tests.Verifiers;
+using System.Collections;
+using System.Collections.Generic;
+
 namespace RxUI.Analysis.Roslyn.Tests.rxui0007
 {
-    internal static class SubscriptionDisposalTestData
+    public class SubscriptionDisposalTestData : IEnumerable<object[]>
     {
-        internal const string Correct = @"
-using System;
-using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using ReactiveUI;
-
-namespace Sample
-{
-    public class SubscriptionDisposalExample : ReactiveObject
-    {
-        public SubscriptionDisposalExample()
+        private readonly List<DiagnosticResult> _diagnostics = new List<DiagnosticResult>()
         {
-            Observable
-               .Return(Unit.Default)
-               .InvokeCommand(this, x => x.Command)
-               .DisposeWith(Garbage);
+            AnalyzerVerifier<SubscriptionDisposalAnalyzer>.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+               .WithSeverity(DiagnosticSeverity.Warning)
+               .WithSpan(15, 17, 15, 23)
+               .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString()),
+            AnalyzerVerifier<SubscriptionDisposalAnalyzer>.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+               .WithSeverity(DiagnosticSeverity.Warning)
+               .WithSpan(19, 17, 19, 30)
+               .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString()),
+            AnalyzerVerifier<SubscriptionDisposalAnalyzer>.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+               .WithSeverity(DiagnosticSeverity.Warning)
+               .WithSpan(23, 17, 23, 26)
+               .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString()),
+            AnalyzerVerifier<SubscriptionDisposalAnalyzer>.Diagnostic(SubscriptionDisposalAnalyzer.Rule.Id)
+               .WithSeverity(DiagnosticSeverity.Warning)
+               .WithSpan(27, 17, 27, 27)
+               .WithMessage(SubscriptionDisposalAnalyzer.Rule.MessageFormat.ToString())
+        };
 
-            Observable
-               .Return(Unit.Default)
-               .Subscribe()
-               .DisposeWith(Garbage);
-
-            Observable
-               .Return(Unit.Default)
-               .ToProperty(this, nameof(Value), out _value)
-               .DisposeWith(Garbage);
-
-            Observable
-               .Return(Unit.Default)
-               .BindTo(this, x => x.Unit)
-               .DisposeWith(Garbage);
-
-            Command = ReactiveCommand.Create(() => { });
+        public IEnumerator<object[]> GetEnumerator()
+        {
+            yield return new object[] { SubscriptionTestData.Incorrect, SubscriptionTestData.Correct, _diagnostics };
         }
 
-
-        public ReactiveCommand<Unit, Unit> Command { get; }
-
-        public Unit Value => _value.Value;
-
-        public Unit Unit
-        {
-            get => _unit;
-            set => this.RaiseAndSetIfChanged(ref _unit, value);
-        }
-
-        private readonly CompositeDisposable Garbage = new CompositeDisposable();
-
-        private readonly ObservableAsPropertyHelper<Unit> _value;
-        private Unit _unit;
-    }
-}";
-        internal const string Incorrect = @"using System;
-using System.Reactive;
-using System.Reactive.Disposables;
-using System.Reactive.Linq;
-using ReactiveUI;
-
-namespace Sample
-{
-    public class SubscriptionDisposalExample : ReactiveObject
-    {
-        public SubscriptionDisposalExample()
-        {
-            Observable
-               .Return(Unit.Default)
-               .BindTo(this, x => x.Unit);
-
-            Observable
-               .Return(Unit.Default)
-               .InvokeCommand(this, x => x.Command);
-
-            Observable
-               .Return(Unit.Default)
-               .Subscribe();
-
-            Observable
-               .Return(Unit.Default)
-               .ToProperty(this, nameof(Value), out _value);
-
-            Command = ReactiveCommand.Create(() => { });
-        }
-
-
-        public ReactiveCommand<Unit, Unit> Command { get; }
-
-        public Unit Value => _value.Value;
-
-        public Unit Unit
-        {
-            get => _unit;
-            set => this.RaiseAndSetIfChanged(ref _unit, value);
-        }
-
-        private readonly CompositeDisposable Garbage = new CompositeDisposable();
-
-        private readonly ObservableAsPropertyHelper<Unit> _value;
-        private Unit _unit;
-    }
-}";
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }

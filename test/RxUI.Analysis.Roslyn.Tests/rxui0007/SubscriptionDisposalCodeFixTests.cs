@@ -13,8 +13,10 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0007
     public class SubscriptionDisposalCodeFixTests : CSharpCodeFixTest<SubscriptionDisposalAnalyzer, SubscriptionDisposalCodeFixProvider, XUnitVerifier>
     {
         [Theory]
-        [ClassData(typeof(SubscriptionDisposableTestData))]
-        public async Task GivenSubscriptionNotDisposed_WhenAnalyzed_ThenCodeFixed(IEnumerable<DiagnosticResult> results, string incorrect, string correct) =>
+        [ClassData(typeof(SubscriptionDisposalTestData))]
+        public async Task GivenSubscriptionNotDisposed_WhenAnalyzed_ThenCodeFixed(string incorrect,
+            string correct,
+            IEnumerable<DiagnosticResult> results) =>
             // Given, When, Then
             await VerifyCS.VerifyAnalyzerAsync(incorrect, correct, results.ToArray());
     }

@@ -1,11 +1,12 @@
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn.Tests.Verifiers;
-using System.Threading.Tasks;
+using ReactiveUI.Analysis.Roslyn;
+using RxUI.Analysis.Roslyn.Tests.Verifiers;
 using Xunit;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
+namespace RxUI.Analysis.Roslyn.Tests.rxui0004
 {
     public class WhenAnyValueClosureAnalyzerTests : CSharpAnalyzerTest<WhenAnyValueClosureAnalyzer, XUnitVerifier>
     {

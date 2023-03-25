@@ -1,14 +1,15 @@
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
-using Microsoft.CodeAnalysis.Testing.Verifiers;
-using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.CodeAnalysis.Testing.Verifiers;
+using ReactiveUI.Analysis.Roslyn;
 using Xunit;
 using VerifyCS =
-    ReactiveUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.WhenAnyValueClosureAnalyzer,
+    RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.WhenAnyValueClosureAnalyzer,
         ReactiveUI.Analysis.Roslyn.WhenAnyValueClosureCodeFixProvider>;
 
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
+namespace RxUI.Analysis.Roslyn.Tests.rxui0004
 {
     public class WhenAnyValueClosureCodeFixTests : CSharpCodeFixTest<WhenAnyValueClosureAnalyzer, WhenAnyValueClosureCodeFixProvider, XUnitVerifier>
     {
