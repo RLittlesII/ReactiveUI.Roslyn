@@ -3,7 +3,6 @@ using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -16,8 +15,6 @@ namespace ReactiveUI.Analysis.Roslyn
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SubscriptionDisposalCodeFixProvider)), Shared]
     public class SubscriptionDisposalCodeFixProvider : CodeFixProvider
     {
-        private const string Title = "Add DisposeWith to subscription";
-
         public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
             ImmutableArray.Create(SubscriptionDisposalAnalyzer.RXUI0007.Id);
 
@@ -47,46 +44,54 @@ namespace ReactiveUI.Analysis.Roslyn
                 return context.Document;
             }
 
-            var diagnosticParent = root.FindNode(context.Span)
-                                       .Parent;
-            var invocationExpressionSyntax = diagnosticParent.Parent as InvocationExpressionSyntax;
+            var diagnosticParent =
+                root.FindNode(context.Span)
+                    .Parent;
 
-            var withCloseParenToken =
+            var originalInvocationExpression = diagnosticParent.Parent as InvocationExpressionSyntax;
+
+            var closeParenToken =
                 ArgumentList(Token(SyntaxKind.OpenParenToken),
-                             invocationExpressionSyntax.ArgumentList.Arguments,
+                             originalInvocationExpression.ArgumentList.Arguments,
                              Token(TriviaList(),
                                    SyntaxKind.CloseParenToken,
                                    TriviaList(LineFeed)));
-            var modifiedInvocationExpressionSyntax =
-                invocationExpressionSyntax.ReplaceNode(invocationExpressionSyntax.ArgumentList, withCloseParenToken);
 
-            var whitespaceTrivia = modifiedInvocationExpressionSyntax.GetLeadingTrivia().Last(x => x.IsKind(SyntaxKind.WhitespaceTrivia));
-            var newNode =
+            var modifiedInvocationExpression =
+                originalInvocationExpression
+                    .ReplaceNode(originalInvocationExpression.ArgumentList, closeParenToken);
+
+            var whitespaceTrivia =
+                modifiedInvocationExpression
+                    .GetLeadingTrivia()
+                    .Last(syntaxTrivia => syntaxTrivia.IsKind(SyntaxKind.WhitespaceTrivia));
+
+            var expressionStatementSyntax =
                 ExpressionStatement(
                         InvocationExpression(
                                 MemberAccessExpression(SyntaxKind.SimpleMemberAccessExpression,
-                                                       modifiedInvocationExpressionSyntax
-                                                           .WithArgumentList(withCloseParenToken),
+                                                       modifiedInvocationExpression
+                                                           .WithArgumentList(closeParenToken),
                                                        IdentifierName("DisposeWith"))
                                     .WithOperatorToken(
-                                        Token(
-                                            TriviaList(
-                                                whitespaceTrivia,
-                                                // HACK: [rlittlesii: March 25, 2023] Whitespace alignment is hard!
-                                                Whitespace("   ")),
-                                            SyntaxKind.DotToken,
-                                            TriviaList())))
+                                        Token(TriviaList(
+                                                  whitespaceTrivia,
+                                                  // HACK: [rlittlesii: March 25, 2023] Whitespace alignment is hard!
+                                                  Whitespace("   ")),
+                                              SyntaxKind.DotToken,
+                                              TriviaList())))
                             .WithArgumentList(
-                                // TODO: [rlittlesii: March 25, 2023] Look for a CompositeDisposable use it's identifier name
-                                ArgumentList(SingletonSeparatedList(Argument(IdentifierName("Garbage"))))
-                                    .WithOpenParenToken(
-                                        Token(SyntaxKind.OpenParenToken))
-                                    .WithCloseParenToken(
-                                        Token(SyntaxKind.CloseParenToken))))
+                                ArgumentList(
+                                        SingletonSeparatedList(
+                                            // TODO: [rlittlesii: March 25, 2023] Look for a CompositeDisposable use it's identifier name
+                                            Argument(IdentifierName("Garbage"))))
+                                    .WithOpenParenToken(Token(SyntaxKind.OpenParenToken))
+                                    .WithCloseParenToken(Token(SyntaxKind.CloseParenToken))))
                     .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            var changed = root.ReplaceNode(invocationExpressionSyntax, newNode.Expression);
-            return context.Document.WithSyntaxRoot(changed);
+            return context.Document.WithSyntaxRoot(root.ReplaceNode(originalInvocationExpression, expressionStatementSyntax.Expression));
         }
+
+        private const string Title = "Add DisposeWith to subscription";
     }
 }
