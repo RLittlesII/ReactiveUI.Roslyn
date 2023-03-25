@@ -1,4 +1,5 @@
-codecov:
+codecov: 
+    token: 5ed2108d-b468-4fe4-a1db-9451f46afb07
     require_ci_to_pass: no
     bot: rsg-bot
     strict_yaml_branch: main

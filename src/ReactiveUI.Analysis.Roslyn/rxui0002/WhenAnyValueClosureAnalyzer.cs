@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ReactiveUI.Analysis.Roslyn
 {
-    public class BindToClosureAnalyzer : UnsupportedExpressionAnalyzer
+    public class WhenAnyValueClosureAnalyzer : UnsupportedExpressionAnalyzer
     {
         /// <inheritdoc />
         protected override void Analyze(SyntaxNodeAnalysisContext context)
@@ -18,7 +18,7 @@ namespace ReactiveUI.Analysis.Roslyn
                 return;
             }
 
-            if (memberAccessExpressionSyntax.Name.Identifier.Text != "BindTo" || memberAccessExpressionSyntax.Expression is not InvocationExpressionSyntax)
+            if (memberAccessExpressionSyntax.Name.Identifier.Text != "WhenAnyValue" || memberAccessExpressionSyntax.Expression is not ThisExpressionSyntax)
             {
                 return;
             }
@@ -31,18 +31,17 @@ namespace ReactiveUI.Analysis.Roslyn
                    .SelectMany(token => token.Where(x => x.IsKind(SyntaxKind.SimpleLambdaExpression) || x.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
                    .ToList();
 
-            if (tokens.Any(x => x.IsKind(SyntaxKind.SimpleLambdaExpression)) && tokens.Any(x => x.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
-            {
-                return;
-            }
+            var node =
+                tokens.Where(x => x.IsKind(SyntaxKind.SimpleLambdaExpression) && x.Parent.IsKind(SyntaxKind.Argument))
+                   .Select(x => x.AsNode())
+                   .OfType<SimpleLambdaExpressionSyntax>()
+                   .Where(x => x.ExpressionBody.IsKind(SyntaxKind.IdentifierName))
+                   .Select(x => x.GetLastToken());
 
-            foreach (var diagnostic in tokens.Select(token => Diagnostic.Create(RXUI0002, token.GetLocation(), token)))
+            foreach (var diagnostic in node.Select(token => Diagnostic.Create(Rule, token.GetLocation(), token)))
             {
                 context.ReportDiagnostic(diagnostic);
             }
         }
-
-        /// <inheritdoc />
-        protected override DiagnosticDescriptor Rule() => RXUI0002;
     }
 }

@@ -1,9 +1,7 @@
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,7 +10,7 @@ namespace ReactiveUI.Analysis.Roslyn
 {
     public abstract class UnsupportedExpressionCodeFixProvider : CodeFixProvider
     {
-        private const string Title = "Fix constant expression";
+        protected const string Title = "Add required member access prefix on expression lambda";
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -26,24 +24,28 @@ namespace ReactiveUI.Analysis.Roslyn
             var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>().First();
             var declaration = ancestorsAndSelf.OfType<SimpleLambdaExpressionSyntax>().First();
 
-            context.RegisterCodeFix(
-                CodeAction.Create(
-                    title: Title,
-                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
-                    equivalenceKey: UnsupportedExpressionAnalyzer.Rule.Id + UnsupportedExpressionAnalyzer.Rule.Title),
-                diagnostic);
+            RegisterCodeFix(context, invocation, declaration, diagnostic);
         }
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(UnsupportedExpressionAnalyzer.Rule.Id);
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        private Task<Document> Fixup(
-            Document document,
+        protected abstract void RegisterCodeFix(
+            CodeFixContext context,
+            InvocationExpressionSyntax invocation,
+            SimpleLambdaExpressionSyntax declaration,
+            Diagnostic diagnostic
+        );
+
+        protected Task<Document> Fixup(
+            CodeFixContext context,
             InvocationExpressionSyntax invocation,
             SimpleLambdaExpressionSyntax declaration,
             CancellationToken cancellationToken
-        ) => Fix(document, invocation, declaration, cancellationToken);
+        ) => Fix(context, invocation, declaration, cancellationToken);
 
-        protected virtual Task<Document> Fix(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken) => Task.FromResult(document);
+        protected virtual Task<Document> Fix(CodeFixContext context,
+                                             InvocationExpressionSyntax invocation,
+                                             SimpleLambdaExpressionSyntax declaration,
+                                             CancellationToken cancellationToken) => Task.FromResult(context.Document);
     }
 }

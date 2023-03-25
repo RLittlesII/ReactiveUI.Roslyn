@@ -36,7 +36,10 @@ namespace ReactiveUI.Analysis.Roslyn
         }
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(OutParameterAssignmentAnalyzer.Rule.Id);
+
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+
+        protected virtual Task<Document> Fix(Document document, LocalDeclarationStatementSyntax declarationSyntax, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken) => Task.FromResult(document);
 
         private Task<Document> Fixup(
             Document document,
@@ -45,7 +48,5 @@ namespace ReactiveUI.Analysis.Roslyn
             SimpleLambdaExpressionSyntax declaration,
             CancellationToken cancellationToken
         ) => Fix(document,declarationSyntax, invocation, declaration, cancellationToken);
-
-        protected virtual Task<Document> Fix(Document document, LocalDeclarationStatementSyntax declarationSyntax, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken) => Task.FromResult(document);
     }
 }

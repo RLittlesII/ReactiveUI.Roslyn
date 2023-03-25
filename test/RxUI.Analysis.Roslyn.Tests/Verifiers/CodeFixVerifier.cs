@@ -45,12 +45,12 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
                     var reactiveui = MetadataReference.CreateFromFile(typeof(ReactiveCommand).Assembly.Location);
                     var splat = MetadataReference.CreateFromFile(typeof(IEnableLogger).Assembly.Location);
                     solution = solution.WithProjectCompilationOptions(projectId, compilationOptions)
-                        .AddRuntimeLibrary(projectId, "netstandard.dll")
-                        .AddRuntimeLibrary(projectId, "System.Runtime.dll")
-                        .AddMetadataReferences(projectId, coreMetaReferences)
-                        .AddMetadataReference(projectId, reactive)
-                        .AddMetadataReference(projectId, reactiveui)
-                       .AddMetadataReference(projectId, splat);
+                                       .AddRuntimeLibrary(projectId, "netstandard.dll")
+                                       .AddRuntimeLibrary(projectId, "System.Runtime.dll")
+                                       .AddMetadataReferences(projectId, coreMetaReferences)
+                                       .AddMetadataReference(projectId, reactive)
+                                       .AddMetadataReference(projectId, reactiveui)
+                                       .AddMetadataReference(projectId, splat);
 
                     return solution;
                 });
@@ -89,14 +89,14 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.Verifiers
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.VerifyCodeFixAsync(string, string)"/>
         public static async Task VerifyCodeFixAsync(string source, string fixedSource)
-            => await VerifyCodeFixAsync(source, DiagnosticResult.EmptyDiagnosticResults, fixedSource);
+            => await VerifyCodeFixAsync(source, fixedSource, DiagnosticResult.EmptyDiagnosticResults);
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.VerifyCodeFixAsync(string, DiagnosticResult, string)"/>
-        public static async Task VerifyCodeFixAsync(string source, DiagnosticResult expected, string fixedSource)
-            => await VerifyCodeFixAsync(source, new[] { expected }, fixedSource);
+        public static async Task VerifyCodeFixAsync(string source, string fixedSource, DiagnosticResult expected)
+            => await VerifyCodeFixAsync(source, fixedSource, new[] { expected });
 
         /// <inheritdoc cref="CodeFixVerifier{TAnalyzer, TCodeFix, TTest, TVerifier}.VerifyCodeFixAsync(string, DiagnosticResult[], string)"/>
-        public static async Task VerifyCodeFixAsync(string source, DiagnosticResult[] expected, string fixedSource)
+        public static async Task VerifyCodeFixAsync(string source, string fixedSource, DiagnosticResult[] expected)
         {
             var test = new Test
             {
