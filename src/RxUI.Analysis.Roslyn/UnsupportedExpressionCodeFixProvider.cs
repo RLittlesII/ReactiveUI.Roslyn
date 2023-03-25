@@ -1,12 +1,12 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     public abstract class UnsupportedExpressionCodeFixProvider : CodeFixProvider
     {

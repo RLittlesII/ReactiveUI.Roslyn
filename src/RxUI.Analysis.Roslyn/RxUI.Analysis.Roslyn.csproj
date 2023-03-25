@@ -2,7 +2,6 @@
     <PropertyGroup>
         <Copyright>Copyright Rodney Littles, II © $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
         <Authors>Rodney Littles, II</Authors>
-        <RootNamespace>ReactiveUI.Analysis.Roslyn</RootNamespace>
         <PackageProjectUrl>https://github.com/RLittlesII/ReactiveUI.Roslyn</PackageProjectUrl>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -12,7 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.0.0-2.21354.7" PrivateAssets="all" />
-        <PackageReference Include="Rocket.Surgery.MSBuild.GitVersion" IncludeAssets="analyzers;build;buildMultitargeting;buildTransitive" PrivateAssets="All" />
+        <PackageReference Include="Rocket.Surgery.MSBuild.GitVersion" Version="1.1.1" IncludeAssets="analyzers;build;buildMultitargeting;buildTransitive" PrivateAssets="All" />
     </ItemGroup>
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />

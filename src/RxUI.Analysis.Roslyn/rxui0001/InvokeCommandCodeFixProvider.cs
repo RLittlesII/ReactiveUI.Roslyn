@@ -1,13 +1,13 @@
+using System.Composition;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Composition;
-using System.Threading;
 using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(InvokeCommandCodeFixProvider)), Shared]
     public class InvokeCommandCodeFixProvider : ExpressionLambdaOverloadCodeFixProvider

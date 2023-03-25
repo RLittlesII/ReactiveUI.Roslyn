@@ -2,7 +2,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class DiagnosticAnalyzerBase : DiagnosticAnalyzer
@@ -10,7 +10,8 @@ namespace ReactiveUI.Analysis.Roslyn
         public sealed override void Initialize(AnalysisContext context)
         {
             context.EnableConcurrentExecution();
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze
+                                                 | GeneratedCodeAnalysisFlags.ReportDiagnostics);
 
             // this is where the coding starts,
             // in this case we register a handler (AnalyzeNamedType method defined below)
@@ -18,10 +19,13 @@ namespace ReactiveUI.Analysis.Roslyn
             context.RegisterSyntaxNodeAction(action: AnalyzeNode, syntaxKinds: GetKind());
         }
 
+        protected virtual void Analyze(SyntaxNodeAnalysisContext context) { }
 
-        protected virtual void Analyze(SyntaxNodeAnalysisContext context){}
-
-        protected virtual SyntaxKind GetSyntaxKind() => SyntaxKind.InvocationExpression;
+        protected virtual SyntaxKind[] GetSyntaxKind() =>
+            new[]
+            {
+                SyntaxKind.InvocationExpression
+            };
 
         /// <summary>
         /// This analyzer find any unsupported constants in expression syntax.
@@ -29,6 +33,6 @@ namespace ReactiveUI.Analysis.Roslyn
         /// <param name="context">The context.</param>
         private void AnalyzeNode(SyntaxNodeAnalysisContext context) => Analyze(context);
 
-        private SyntaxKind GetKind() => GetSyntaxKind();
+        private SyntaxKind[] GetKind() => GetSyntaxKind();
     }
 }

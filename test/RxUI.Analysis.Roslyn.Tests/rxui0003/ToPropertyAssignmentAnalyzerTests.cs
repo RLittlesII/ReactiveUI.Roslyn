@@ -1,10 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.ToPropertyAssignmentAnalyzer>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<RxUI.Analysis.Roslyn.ToPropertyAssignmentAnalyzer>;
 
 namespace RxUI.Analysis.Roslyn.Tests.rxui0003
 {
@@ -16,10 +15,10 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0003
         {
             // Given
             var diagnosticResult =
-                VerifyCS.Diagnostic(OutParameterAssignmentAnalyzer.Rule.Id)
+                VerifyCS.Diagnostic(OutParameterAssignmentAnalyzer.RXUI0003.Id)
                    .WithSeverity(DiagnosticSeverity.Error)
                    .WithSpan(15, 38, 15, 50)
-                   .WithMessage(OutParameterAssignmentAnalyzer.Rule.MessageFormat.ToString())
+                   .WithMessage(OutParameterAssignmentAnalyzer.RXUI0003.MessageFormat.ToString())
                    .WithArguments("x => x.Value");
 
             // When, Then

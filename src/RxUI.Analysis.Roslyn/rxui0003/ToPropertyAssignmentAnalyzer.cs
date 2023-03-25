@@ -1,10 +1,10 @@
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Linq;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     public class ToPropertyAssignmentAnalyzer : OutParameterAssignmentAnalyzer
     {
@@ -41,7 +41,7 @@ namespace ReactiveUI.Analysis.Roslyn
                 return;
             }
 
-            foreach (var diagnostic in tokens.Select(token => Diagnostic.Create(Rule, token.GetLocation(), token)))
+            foreach (var diagnostic in tokens.Select(token => Diagnostic.Create(RXUI0003, token.GetLocation(), token)))
             {
                 context.ReportDiagnostic(diagnostic);
             }

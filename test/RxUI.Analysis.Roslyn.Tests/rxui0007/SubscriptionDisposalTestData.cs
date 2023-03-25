@@ -1,6 +1,5 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Testing;
-using ReactiveUI.Analysis.Roslyn;
 using RxUI.Analysis.Roslyn.Tests.Verifiers;
 using System.Collections;
 using System.Collections.Generic;

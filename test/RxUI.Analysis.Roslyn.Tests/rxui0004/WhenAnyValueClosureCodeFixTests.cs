@@ -3,11 +3,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using Xunit;
 using VerifyCS =
-    RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.WhenAnyValueClosureAnalyzer,
-        ReactiveUI.Analysis.Roslyn.WhenAnyValueClosureCodeFixProvider>;
+    RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<RxUI.Analysis.Roslyn.WhenAnyValueClosureAnalyzer,
+        RxUI.Analysis.Roslyn.WhenAnyValueClosureCodeFixProvider>;
 
 namespace RxUI.Analysis.Roslyn.Tests.rxui0004
 {

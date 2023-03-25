@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using RxUI.Analysis.Roslyn.Tests.Verifiers;
 using Xunit;
 

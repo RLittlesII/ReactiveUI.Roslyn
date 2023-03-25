@@ -1,12 +1,11 @@
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<ReactiveUI.Analysis.Roslyn.SubscriptionDisposalAnalyzer, ReactiveUI.Analysis.Roslyn.SubscriptionDisposalCodeFixProvider>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.CodeFixVerifier<RxUI.Analysis.Roslyn.SubscriptionDisposalAnalyzer, RxUI.Analysis.Roslyn.SubscriptionDisposalCodeFixProvider>;
 
 namespace RxUI.Analysis.Roslyn.Tests.rxui0007
 {

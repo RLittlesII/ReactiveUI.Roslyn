@@ -1,10 +1,9 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using System.Threading.Tasks;
 using Xunit;
-using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.InvokeCommandAnalyzer>;
+using VerifyCS = RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<RxUI.Analysis.Roslyn.InvokeCommandAnalyzer>;
 
 namespace RxUI.Analysis.Roslyn.Tests.rxui0001
 {
@@ -16,7 +15,7 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0001
         {
             // Given
             var diagnosticResult =
-                VerifyCS.Diagnostic(ExpressionLambdaOverloadAnalyzer.Rule.Id)
+                VerifyCS.Diagnostic(ExpressionLambdaOverloadAnalyzer.RXUI0001.Id)
                    .WithSeverity(DiagnosticSeverity.Warning)
                    .WithSpan(13, 32, 13, 39)
                    .WithMessage("Use expression lambda overload for property Command");
