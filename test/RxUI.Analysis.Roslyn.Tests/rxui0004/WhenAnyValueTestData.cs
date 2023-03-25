@@ -1,4 +1,4 @@
-namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
+namespace RxUI.Analysis.Roslyn.Tests.rxui0004
 {
     internal static class WhenAnyValueTestData
     {
