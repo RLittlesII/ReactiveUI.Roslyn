@@ -3,9 +3,9 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
     internal static class WhenAnyValueTestData
     {
         internal const string CorrectSingleProperty = @"
-using ReactiveUI;
 using System;
 using System.Reactive;
+using ReactiveUI;
 
 namespace Sample
 {
@@ -23,9 +23,9 @@ namespace Sample
     }
 }";
         internal const string IncorrectSingleProperty = @"
-using ReactiveUI;
 using System;
 using System.Reactive;
+using ReactiveUI;
 
 namespace Sample
 {
@@ -44,9 +44,9 @@ namespace Sample
 }";
 
         internal const string CorrectMultipleProperty = @"
-using ReactiveUI;
 using System;
 using System.Reactive;
+using ReactiveUI;
 
 namespace Sample
 {
@@ -64,15 +64,15 @@ namespace Sample
     }
 }";
         internal const string IncorrectMultipleProperty = @"
-using ReactiveUI;
 using System;
 using System.Reactive;
+using ReactiveUI;
 
 namespace Sample
 {
     public class WhenAnyValueClosureExample : ReactiveObject
     {
-        public WhenAnyValueClosureExample() => this.WhenAnyValue(x => x.Value, y => Value).Subscribe();
+        public WhenAnyValueClosureExample() => this.WhenAnyValue(x => Value, y => y.Value).Subscribe();
 
         public Unit Value
         {

@@ -20,17 +20,20 @@ namespace ReactiveUI.Analysis.Roslyn
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: Title,
-                    createChangedDocument: c => Fixup(context.Document, invocation, declaration, c),
+                    createChangedDocument: c => Fixup(context, invocation, declaration, c),
                     equivalenceKey: UnsupportedExpressionAnalyzer.RXUI0002.Id + UnsupportedExpressionAnalyzer.RXUI0002.Title + "BindTo"
                 ),
                 diagnostic);
 
-        protected override async Task<Document> Fix(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken)
+        protected override async Task<Document> Fix(CodeFixContext context,
+                                                    InvocationExpressionSyntax invocation,
+                                                    SimpleLambdaExpressionSyntax declaration,
+                                                    CancellationToken cancellationToken)
         {
-            var rootAsync = await document.GetSyntaxRootAsync(cancellationToken);
+            var rootAsync = await context.Document.GetSyntaxRootAsync(cancellationToken);
             if (rootAsync == null)
             {
-                return document;
+                return context.Document;
             }
 
             var arguments = ArgumentList(
@@ -71,7 +74,7 @@ namespace ReactiveUI.Analysis.Roslyn
                     }));
 
             var changed = rootAsync.ReplaceNode(invocation.ArgumentList, arguments);
-            return document.WithSyntaxRoot(changed);
+            return context.Document.WithSyntaxRoot(changed);
         }
     }
 }

@@ -11,14 +11,15 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
     {
         [Theory]
         [InlineData(WhenAnyValueTestData.IncorrectSingleProperty)]
-        public async Task GivenSingleClosure_WhenVerified_ThenDiagnosticsReported(string  code)
+        public async Task GivenSingleClosure_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
             var diagnosticResult =
-                AnalyzerVerifier<WhenAnyValueClosureAnalyzer>.Diagnostic(UnsupportedExpressionAnalyzer.RXUI0004.Id)
-                   .WithSeverity(DiagnosticSeverity.Error)
-                   .WithSpan(10, 71, 10, 76)
-                   .WithMessage(UnsupportedExpressionAnalyzer.RXUI0004.MessageFormat.ToString());
+                AnalyzerVerifier<WhenAnyValueClosureAnalyzer>
+                    .Diagnostic(UnsupportedExpressionAnalyzer.RXUI0004.Id)
+                    .WithSeverity(DiagnosticSeverity.Error)
+                    .WithSpan(10, 71, 10, 76)
+                    .WithMessage(UnsupportedExpressionAnalyzer.RXUI0004.MessageFormat.ToString());
 
             // When, Then
             await AnalyzerVerifier<WhenAnyValueClosureAnalyzer>.VerifyAnalyzerAsync(code, diagnosticResult);
@@ -32,18 +33,22 @@ namespace ReactiveUI.Analysis.Roslyn.Tests.rxui0004
 
         [Theory]
         [InlineData(WhenAnyValueTestData.IncorrectMultipleProperty)]
-        public async Task GivenMultiClosure_WhenVerified_ThenDiagnosticsReported(string  code)
+        public async Task GivenMultiClosure_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
-            var diagnosticResult =
-                AnalyzerVerifier<WhenAnyValueClosureAnalyzer>
-                   .Diagnostic(UnsupportedExpressionAnalyzer.RXUI0004.Id)
-                   .WithSeverity(DiagnosticSeverity.Error)
-                   .WithSpan(10, 71, 10, 76)
-                   .WithMessage(UnsupportedExpressionAnalyzer.RXUI0004.MessageFormat.ToString());
+            var diagnosticResults =
+                new[]
+                {
+                    AnalyzerVerifier<WhenAnyValueClosureAnalyzer>
+                        .Diagnostic(UnsupportedExpressionAnalyzer.RXUI0004)
+                        .WithSeverity(DiagnosticSeverity.Error)
+                        .WithSpan(10, 71, 10, 76)
+                        .WithMessage(UnsupportedExpressionAnalyzer.RXUI0004.MessageFormat.ToString())
+                };
 
             // When, Then
-            await AnalyzerVerifier<WhenAnyValueClosureAnalyzer>.VerifyAnalyzerAsync(code, diagnosticResult);
+            await AnalyzerVerifier<WhenAnyValueClosureAnalyzer>
+                .VerifyAnalyzerAsync(code, diagnosticResults);
         }
 
         [Theory]

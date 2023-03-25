@@ -11,34 +11,31 @@ namespace ReactiveUI.Analysis.Roslyn
         /// <inheritdoc />
         protected override void Analyze(SyntaxNodeAnalysisContext context)
         {
-            var invocationExpression = (InvocationExpressionSyntax)context.Node;
+            var invocationExpression = (InvocationExpressionSyntax) context.Node;
 
             if (invocationExpression.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)
             {
                 return;
             }
 
-            if (memberAccessExpressionSyntax.Name.Identifier.Text != "WhenAnyValue" || memberAccessExpressionSyntax.Expression is not ThisExpressionSyntax)
+            if (memberAccessExpressionSyntax.Name.Identifier.Text != "WhenAnyValue"
+             || memberAccessExpressionSyntax.Expression is not ThisExpressionSyntax)
             {
                 return;
             }
 
-            var tokens =
+            var diagnostics =
                 invocationExpression
-                   .ArgumentList
-                   .Arguments
-                   .Select(argument => argument.DescendantNodesAndTokens())
-                   .SelectMany(token => token.Where(x => x.IsKind(SyntaxKind.SimpleLambdaExpression) || x.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
-                   .ToList();
+                    .ArgumentList
+                    .Arguments
+                    .Select(argumentSyntax => argumentSyntax.Expression)
+                    .OfType<SimpleLambdaExpressionSyntax>()
+                    .Where(simpleLambdaExpressionSyntax => !simpleLambdaExpressionSyntax.ExpressionBody.IsKind(SyntaxKind.SimpleMemberAccessExpression))
+                    .Select(simpleLambdaExpressionSyntax => simpleLambdaExpressionSyntax.GetLastToken())
+                    .Select(syntaxToken => Diagnostic.Create(RXUI0004, syntaxToken.GetLocation(), syntaxToken))
+                    .ToList();
 
-            var node =
-                tokens.Where(x => x.IsKind(SyntaxKind.SimpleLambdaExpression) && x.Parent.IsKind(SyntaxKind.Argument))
-                   .Select(x => x.AsNode())
-                   .OfType<SimpleLambdaExpressionSyntax>()
-                   .Where(x => x.ExpressionBody.IsKind(SyntaxKind.IdentifierName))
-                   .Select(x => x.GetLastToken());
-
-            foreach (var diagnostic in node.Select(token => Diagnostic.Create(RXUI0004, token.GetLocation(), token)))
+            foreach (var diagnostic in diagnostics)
             {
                 context.ReportDiagnostic(diagnostic);
             }

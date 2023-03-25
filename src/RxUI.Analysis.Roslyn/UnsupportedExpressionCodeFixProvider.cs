@@ -37,12 +37,15 @@ namespace ReactiveUI.Analysis.Roslyn
         );
 
         protected Task<Document> Fixup(
-            Document document,
+            CodeFixContext context,
             InvocationExpressionSyntax invocation,
             SimpleLambdaExpressionSyntax declaration,
             CancellationToken cancellationToken
-        ) => Fix(document, invocation, declaration, cancellationToken);
+        ) => Fix(context, invocation, declaration, cancellationToken);
 
-        protected virtual Task<Document> Fix(Document document, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken) => Task.FromResult(document);
+        protected virtual Task<Document> Fix(CodeFixContext context,
+                                             InvocationExpressionSyntax invocation,
+                                             SimpleLambdaExpressionSyntax declaration,
+                                             CancellationToken cancellationToken) => Task.FromResult(context.Document);
     }
 }
