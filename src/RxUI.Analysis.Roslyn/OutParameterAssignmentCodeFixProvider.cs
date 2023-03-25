@@ -1,14 +1,14 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     public abstract class OutParameterAssignmentCodeFixProvider : CodeFixProvider
     {
@@ -31,15 +31,21 @@ namespace ReactiveUI.Analysis.Roslyn
                 CodeAction.Create(
                     title: Title,
                     createChangedDocument: c => Fixup(context.Document,variableDeclaration, invocation, declaration, c),
-                    equivalenceKey: OutParameterAssignmentAnalyzer.Rule.Id + OutParameterAssignmentAnalyzer.Rule.Title),
+                    equivalenceKey: OutParameterAssignmentAnalyzer.RXUI0003.Id + OutParameterAssignmentAnalyzer.RXUI0003.Title),
                 diagnostic);
         }
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } = ImmutableArray.Create(OutParameterAssignmentAnalyzer.Rule.Id);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
+            ImmutableArray.Create(OutParameterAssignmentAnalyzer.RXUI0003.Id);
 
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
-        protected virtual Task<Document> Fix(Document document, LocalDeclarationStatementSyntax declarationSyntax, InvocationExpressionSyntax invocation, SimpleLambdaExpressionSyntax declaration, CancellationToken cancellationToken) => Task.FromResult(document);
+        protected virtual Task<Document> Fix(Document document,
+                                             LocalDeclarationStatementSyntax declarationSyntax,
+                                             InvocationExpressionSyntax invocation,
+                                             SimpleLambdaExpressionSyntax declaration,
+                                             CancellationToken cancellationToken) =>
+            Task.FromResult(document);
 
         private Task<Document> Fixup(
             Document document,

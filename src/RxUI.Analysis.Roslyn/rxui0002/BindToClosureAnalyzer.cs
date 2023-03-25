@@ -1,10 +1,10 @@
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Linq;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     public class BindToClosureAnalyzer : UnsupportedExpressionAnalyzer
     {
@@ -31,7 +31,7 @@ namespace ReactiveUI.Analysis.Roslyn
                    .SelectMany(token => token.Where(x => x.IsKind(SyntaxKind.SimpleLambdaExpression) || x.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
                    .ToList();
 
-            if (tokens.Any(x => x.IsKind(SyntaxKind.SimpleLambdaExpression)) && tokens.Any(x => x.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
+            if (tokens.Any(syntaxNodeOrToken => syntaxNodeOrToken.IsKind(SyntaxKind.SimpleLambdaExpression)) && tokens.Any(syntaxNodeOrToken => syntaxNodeOrToken.IsKind(SyntaxKind.SimpleMemberAccessExpression)))
             {
                 return;
             }

@@ -1,14 +1,14 @@
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
-using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
     public abstract class ExpressionLambdaOverloadCodeFixProvider : CodeFixProvider
     {
@@ -29,12 +29,12 @@ namespace ReactiveUI.Analysis.Roslyn
                 CodeAction.Create(
                     title: Title,
                     createChangedDocument: c => Fixup(context.Document, invocation, c),
-                    equivalenceKey: ExpressionLambdaOverloadAnalyzer.Rule.Id + ExpressionLambdaOverloadAnalyzer.Rule.Title),
+                    equivalenceKey: ExpressionLambdaOverloadAnalyzer.RXUI0001.Id + ExpressionLambdaOverloadAnalyzer.RXUI0001.Title),
                 diagnostic);
         }
 
         public override ImmutableArray<string> FixableDiagnosticIds { get; }
-            = ImmutableArray.Create(ExpressionLambdaOverloadAnalyzer.Rule.Id);
+            = ImmutableArray.Create(ExpressionLambdaOverloadAnalyzer.RXUI0001.Id);
 
         public override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
