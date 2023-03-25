@@ -37,18 +37,19 @@ namespace ReactiveUI.Analysis.Roslyn
                 CodeAction.Create(
                     title: Title,
                     createChangedDocument: c => Fixup(context, invocation, declaration, c),
-                    equivalenceKey: SubscriptionDisposalAnalyzer.Rule.Id + SubscriptionDisposalAnalyzer.Rule.Title
+                    equivalenceKey: SubscriptionDisposalAnalyzer.RXUI0007.Id + SubscriptionDisposalAnalyzer.RXUI0007.Title
                 ),
                 diagnostic
             );
         }
 
+        public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+
         private static async Task<Document> Fixup(
             CodeFixContext context,
             InvocationExpressionSyntax invocation,
             InvocationExpressionSyntax declarationSyntax,
-            CancellationToken cancellationToken
-        )
+            CancellationToken cancellationToken)
         {
             var rootAsync = await context.Document.GetSyntaxRootAsync(cancellationToken);
             if (rootAsync == null)
@@ -95,6 +96,6 @@ namespace ReactiveUI.Analysis.Roslyn
         }
 
         public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(SubscriptionDisposalAnalyzer.Rule.Id);
+            ImmutableArray.Create(SubscriptionDisposalAnalyzer.RXUI0007.Id);
     }
 }

@@ -17,6 +17,11 @@ namespace Sample
         {
             Observable
                .Return(Unit.Default)
+               .BindTo(this, x => x.Unit)
+               .DisposeWith(Garbage);
+
+            Observable
+               .Return(Unit.Default)
                .InvokeCommand(this, x => x.Command)
                .DisposeWith(Garbage);
 
@@ -30,14 +35,8 @@ namespace Sample
                .ToProperty(this, nameof(Value), out _value)
                .DisposeWith(Garbage);
 
-            Observable
-               .Return(Unit.Default)
-               .BindTo(this, x => x.Unit)
-               .DisposeWith(Garbage);
-
             Command = ReactiveCommand.Create(() => { });
         }
-
 
         public ReactiveCommand<Unit, Unit> Command { get; }
 
@@ -55,7 +54,8 @@ namespace Sample
         private Unit _unit;
     }
 }";
-        internal const string Incorrect = @"using System;
+        internal const string Incorrect = @"
+using System;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -85,7 +85,6 @@ namespace Sample
 
             Command = ReactiveCommand.Create(() => { });
         }
-
 
         public ReactiveCommand<Unit, Unit> Command { get; }
 

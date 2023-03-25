@@ -10,7 +10,7 @@ namespace ReactiveUI.Analysis.Roslyn
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class SubscriptionDisposalAnalyzer : DiagnosticAnalyzerBase
     {
-        internal static readonly DiagnosticDescriptor Rule =
+        internal static readonly DiagnosticDescriptor RXUI0007 =
             new("RXUI0007",
                 "Subscription is not disposed",
                 "Consider use of DisposeWith to clean up subscriptions",
@@ -19,7 +19,7 @@ namespace ReactiveUI.Analysis.Roslyn
                 true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
-            ImmutableArray.Create(Rule);
+            ImmutableArray.Create(RXUI0007);
 
         protected override void Analyze(SyntaxNodeAnalysisContext context)
         {
@@ -48,9 +48,9 @@ namespace ReactiveUI.Analysis.Roslyn
                 return;
             }
 
-            context.ReportDiagnostic(Diagnostic.Create(Rule, memberAccessExpressionSyntax.Name.Identifier.GetLocation()));
+            context.ReportDiagnostic(Diagnostic.Create(RXUI0007, memberAccessExpressionSyntax.Name.Identifier.GetLocation()));
         }
 
-        private readonly List<string> _subscriptionAccess = new List<string> { "InvokeCommand", "Subscribe", "ToProperty", "BindTo" };
+        private readonly List<string> _subscriptionAccess = new List<string> { "InvokeCommand", "HandledSubscribe", "SafeSubscribe", "SubscribeSafe", "ToProperty", "BindTo" };
     }
 }

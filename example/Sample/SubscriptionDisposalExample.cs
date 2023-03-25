@@ -29,7 +29,6 @@ namespace Sample
             Command = ReactiveCommand.Create(() => { });
         }
 
-
         public ReactiveCommand<Unit, Unit> Command { get; }
 
         public Unit Value => _value.Value;
