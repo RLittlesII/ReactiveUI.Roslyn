@@ -80,10 +80,12 @@ namespace ReactiveUI.Analysis.Roslyn
                                     .WithOperatorToken(
                                         Token(
                                             TriviaList(
+                                                // TODO: [rlittlesii: March 25, 2023] Get previous Whitespace triva list and us it's span
                                                 Whitespace("               ")),
                                             SyntaxKind.DotToken,
                                             TriviaList())))
                             .WithArgumentList(
+                                // TODO: [rlittlesii: March 25, 2023] Look for a CompositeDisposable use it's identifier name
                                 ArgumentList(SingletonSeparatedList(Argument(IdentifierName("Garbage"))))
                                     .WithOpenParenToken(
                                         Token(SyntaxKind.OpenParenToken))
