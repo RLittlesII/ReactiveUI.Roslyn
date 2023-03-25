@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
 using System.Collections.Immutable;
+using System.Composition;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +13,13 @@ using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace ReactiveUI.Analysis.Roslyn
 {
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(SubscriptionDisposalCodeFixProvider)), Shared]
     public class SubscriptionDisposalCodeFixProvider : CodeFixProvider
     {
-        private const string Title = "Add DisposeWith to subscription.";
+        private const string Title = "Add DisposeWith to subscription";
+
+        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
+            ImmutableArray.Create(SubscriptionDisposalAnalyzer.RXUI0007.Id);
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
@@ -70,6 +75,7 @@ namespace ReactiveUI.Analysis.Roslyn
             var modifiedInvocationExpressionSyntax =
                 invocationExpressionSyntax.ReplaceNode(invocationExpressionSyntax.ArgumentList, withCloseParenToken);
 
+            var whitespaceTrivia = modifiedInvocationExpressionSyntax.GetLeadingTrivia().Last(x => x.IsKind(SyntaxKind.WhitespaceTrivia));
             var newNode =
                 ExpressionStatement(
                         InvocationExpression(
@@ -80,8 +86,9 @@ namespace ReactiveUI.Analysis.Roslyn
                                     .WithOperatorToken(
                                         Token(
                                             TriviaList(
-                                                // TODO: [rlittlesii: March 25, 2023] Get previous Whitespace triva list and us it's span
-                                                Whitespace("               ")),
+                                                whitespaceTrivia,
+                                                // HACK: [rlittlesii: March 25, 2023] Whitespace alignment is hard!
+                                                Whitespace("   ")),
                                             SyntaxKind.DotToken,
                                             TriviaList())))
                             .WithArgumentList(
@@ -96,8 +103,5 @@ namespace ReactiveUI.Analysis.Roslyn
             var changed = rootAsync.ReplaceNode(invocationExpressionSyntax, newNode.Expression);
             return context.Document.WithSyntaxRoot(changed);
         }
-
-        public sealed override ImmutableArray<string> FixableDiagnosticIds { get; } =
-            ImmutableArray.Create(SubscriptionDisposalAnalyzer.RXUI0007.Id);
     }
 }

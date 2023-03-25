@@ -1,9 +1,11 @@
 using ReactiveUI;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reactive;
 
 namespace Sample
 {
+    [SuppressMessage("Usage", "RXUI0007:Subscription is not disposed")]
     public class WhenAnyValueClosureExample : ReactiveObject
     {
         public WhenAnyValueClosureExample()

@@ -10,14 +10,6 @@ namespace ReactiveUI.Analysis.Roslyn
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class SubscriptionDisposalAnalyzer : DiagnosticAnalyzerBase
     {
-        internal static readonly DiagnosticDescriptor RXUI0007 =
-            new("RXUI0007",
-                "Subscription is not disposed",
-                "Consider use of DisposeWith to clean up subscriptions",
-                "Usage",
-                DiagnosticSeverity.Warning,
-                true);
-
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =
             ImmutableArray.Create(RXUI0007);
 
@@ -37,11 +29,6 @@ namespace ReactiveUI.Analysis.Roslyn
             {
                 return;
             }
-            //
-            // if (memberAccessExpressionSyntax.Expression is not InvocationExpressionSyntax { Expression: InvocationExpressionSyntax invocationExpressionSyntax })
-            // {
-            //     return;
-            // }
 
             if (!_subscriptionAccess.Any(methodName => methodName.Contains(memberAccessExpressionSyntax.Name.Identifier.Text)) || memberAccessExpressionSyntax.Expression is not InvocationExpressionSyntax)
             {
@@ -50,6 +37,14 @@ namespace ReactiveUI.Analysis.Roslyn
 
             context.ReportDiagnostic(Diagnostic.Create(RXUI0007, memberAccessExpressionSyntax.Name.Identifier.GetLocation()));
         }
+
+        internal static readonly DiagnosticDescriptor RXUI0007 =
+            new("RXUI0007",
+                "Subscription not disposed",
+                "Consider use of DisposeWith to clean up subscriptions",
+                "Usage",
+                DiagnosticSeverity.Warning,
+                true);
 
         private readonly List<string> _subscriptionAccess = new List<string> { "InvokeCommand", "HandledSubscribe", "SafeSubscribe", "SubscribeSafe", "ToProperty", "BindTo" };
     }

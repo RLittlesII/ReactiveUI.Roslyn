@@ -12,19 +12,23 @@ namespace Sample
         {
             Observable
                .Return(Unit.Default)
-               .BindTo(this, x => x.Unit);
+               .BindTo(this, x => x.Unit)
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
-               .InvokeCommand(this, x => x.Command);
+               .InvokeCommand(this, x => x.Command)
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
-               .Subscribe();
+               .Subscribe()
+               .DisposeWith(Garbage);
 
             Observable
                .Return(Unit.Default)
-               .ToProperty(this, nameof(Value), out _value);
+               .ToProperty(this, nameof(Value), out _value)
+               .DisposeWith(Garbage);
 
             Command = ReactiveCommand.Create(() => { });
         }
