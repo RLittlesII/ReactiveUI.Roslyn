@@ -23,47 +23,32 @@ namespace ReactiveUI.Analysis.Roslyn
 
         public override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken)
-                                    .ConfigureAwait(false);
+            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
             var diagnostic = context.Diagnostics.First();
-            var diagnosticSpan = diagnostic.Location.SourceSpan;
-
-            // Find the type declaration identified by the diagnostic.
-            var ancestorsAndSelf = (root?.FindToken(diagnosticSpan.Start)
-                                        .Parent?.AncestorsAndSelf()
-                                 ?? Array.Empty<SyntaxNode>()).ToList();
-            var invocation = ancestorsAndSelf.OfType<InvocationExpressionSyntax>()
-                                             .First();
-            var declaration =
-                ancestorsAndSelf.First(x => x.IsKind(SyntaxKind.InvocationExpression)) as InvocationExpressionSyntax;
 
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: Title,
-                    createChangedDocument: c => Fixup(context, invocation, declaration, c),
-                    equivalenceKey: SubscriptionDisposalAnalyzer.RXUI0007.Id + SubscriptionDisposalAnalyzer.RXUI0007.Title
-                ),
-                diagnostic
-            );
+                    createChangedDocument: c => Fixup(root, context, c),
+                    equivalenceKey: SubscriptionDisposalAnalyzer.RXUI0007.Id + SubscriptionDisposalAnalyzer.RXUI0007.Title),
+                diagnostic);
         }
 
         public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 
         private static async Task<Document> Fixup(
+            SyntaxNode root,
             CodeFixContext context,
-            InvocationExpressionSyntax invocation,
-            InvocationExpressionSyntax declarationSyntax,
             CancellationToken cancellationToken)
         {
-            var rootAsync = await context.Document.GetSyntaxRootAsync(cancellationToken);
-            if (rootAsync == null)
+            if (root == null)
             {
                 return context.Document;
             }
 
-            var diagnosticParent = rootAsync.FindNode(context.Span)
-                                            .Parent;
+            var diagnosticParent = root.FindNode(context.Span)
+                                       .Parent;
             var invocationExpressionSyntax = diagnosticParent.Parent as InvocationExpressionSyntax;
 
             var withCloseParenToken =
@@ -100,7 +85,7 @@ namespace ReactiveUI.Analysis.Roslyn
                                         Token(SyntaxKind.CloseParenToken))))
                     .WithSemicolonToken(Token(SyntaxKind.SemicolonToken));
 
-            var changed = rootAsync.ReplaceNode(invocationExpressionSyntax, newNode.Expression);
+            var changed = root.ReplaceNode(invocationExpressionSyntax, newNode.Expression);
             return context.Document.WithSyntaxRoot(changed);
         }
     }
