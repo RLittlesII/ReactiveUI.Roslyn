@@ -41,7 +41,6 @@ namespace ReactiveUI.Analysis.Roslyn
                 return context.Document;
             }
 
-            var diagnostic = context.Diagnostics.First(x => x.Id == UnsupportedExpressionAnalyzer.RXUI0004.Id);
             var simpleMemberAccessExpression = rootAsync.FindNode(context.Span);
 
             var memberAccessExpression =
