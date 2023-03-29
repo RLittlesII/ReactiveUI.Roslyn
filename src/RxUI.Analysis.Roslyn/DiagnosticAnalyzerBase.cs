@@ -1,10 +1,8 @@
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RxUI.Analysis.Roslyn
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class DiagnosticAnalyzerBase : DiagnosticAnalyzer
     {
         public sealed override void Initialize(AnalysisContext context)

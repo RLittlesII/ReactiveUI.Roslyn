@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RxUI.Analysis.Roslyn
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class BindToClosureAnalyzer : UnsupportedExpressionAnalyzer
     {
         /// <inheritdoc />
