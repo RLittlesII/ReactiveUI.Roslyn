@@ -45,34 +45,19 @@ jobs:
           GITHUB_TOKEN: '${{ github.token }}'
         continue-on-error: true
 
-      - name: Get Repo and Owner
-        shell: pwsh
-        id: repository
-        run: |
-          $parts = $ENV:GITHUB_REPOSITORY.Split('/')
-          echo "::set-output name=owner::$($parts[0])"
-          echo "::set-output name=repository::$($parts[1])"
-
       - name: sync milestones
         uses: RocketSurgeonsGuild/actions/sync-milestone@v0.2.6
         with:
           default-label: ':sparkles: mysterious'
           github-token: ${{ github.token }}
 
-      - name: Create Draft Release
-        shell: pwsh
-        run: |
-          dotnet gitreleasemanager create `
-            -o "${{ steps.repository.outputs.owner }}" `
-            -r "${{ steps.repository.outputs.repository }}" `
-            --token "${{ github.token }}" `
-            -m "v${{ steps.gitversion.outputs.majorMinorPatch }}"
-
-      - name: Export Changelog
-        shell: pwsh
-        run: |
-          dotnet gitreleasemanager export `
-            -o "${{ steps.repository.outputs.owner }}" `
-            -r "${{ steps.repository.outputs.repository }}" `
-            --token "${{ github.token }}" `
-            -f CHANGELOG.md
+      - uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          generateReleaseNotes: true
+          draft: true
+          omitNameDuringUpdate: true
+          name: "v${{ steps.gitversion.outputs.majorMinorPatch }}"
+          tag: "v${{ steps.gitversion.outputs.majorMinorPatch }}"
+          token: ${{ github.token }}
+          commit: ${{ github.base_ref }}
