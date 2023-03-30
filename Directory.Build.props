@@ -6,6 +6,7 @@
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageReadmeFile>AnalyzerReleases.Shipped.md</PackageReadmeFile>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
     <ItemGroup>
