@@ -1,0 +1,36 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "local>RocketSurgeonsGuild/.github:renovate-config"
+  ],
+  "prHourlyLimit": 10,
+  "prConcurrentLimit": 5,
+  "hostRules": [
+    {
+      "concurrentRequestLimit": 999
+    }
+  ],
+  "platformAutomerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase",
+  "rebaseWhen": "auto",
+  "labels": [":package: dependencies"],
+  "rebaseLabel": ":trident: rebase",
+  "stopUpdatingLabel": ":vertical_traffic_light: stop updating",
+  "github-actions": {
+    "fileMatch": [
+      "(^workflow-templates|\\.github\\/workflows)\\/[^/]+\\.ya?ml$",
+      "(^|\\/)action\\.ya?ml$"
+    ],
+    "automerge": true,
+    "groupName": "github actions",
+    "labels": [":truck: private-dependencies"]
+  },
+  "assignees": ["rlittlesii"],
+  "packageRules": [
+    {
+      "automerge": true,
+      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "automergeStrategy": "squash"
+    }
+}
