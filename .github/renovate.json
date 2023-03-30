@@ -3,6 +3,14 @@
   "extends": [
     "local>RocketSurgeonsGuild/.github:renovate-config"
   ],
+  "schedule": [
+    "every wednesday after 10pm"
+  ],
+  "timezone" : "America/Chicago",
+  "assignees": [
+    "rlittlesii"
+  ],
+  "separateMajorMinor" : true,
   "prHourlyLimit": 10,
   "prConcurrentLimit": 5,
   "hostRules": [
@@ -14,7 +22,9 @@
   "automergeType": "pr",
   "automergeStrategy": "rebase",
   "rebaseWhen": "auto",
-  "labels": [":package: dependencies"],
+  "labels": [
+    ":package: dependencies"
+  ],
   "rebaseLabel": ":trident: rebase",
   "stopUpdatingLabel": ":vertical_traffic_light: stop updating",
   "github-actions": {
@@ -24,13 +34,20 @@
     ],
     "automerge": true,
     "groupName": "github actions",
-    "labels": [":truck: private-dependencies"]
+    "labels": [
+      ":truck: private-dependencies"
+    ]
   },
-  "assignees": ["rlittlesii"],
   "packageRules": [
     {
       "automerge": true,
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
       "automergeStrategy": "squash"
     }
+  ]
 }

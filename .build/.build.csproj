@@ -33,6 +33,7 @@
       <None Include="..\.travis.yml" Condition="Exists('..\.travis.yml')" />
       <None Include="..\GitVersion.yml" Condition="Exists('..\GitVersion.yml')" />
       <None Include="..\.github\**\*.yml" LinkBase=".github" />
+      <None Include="..\.github\**\*.json" LinkBase=".github" />
   </ItemGroup>
   
   <ItemGroup>
