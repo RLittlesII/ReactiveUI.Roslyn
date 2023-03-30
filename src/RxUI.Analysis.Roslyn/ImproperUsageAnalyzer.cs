@@ -1,11 +1,10 @@
+using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Collections.Immutable;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
-    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public abstract class ImproperUsageAnalyzer: DiagnosticAnalyzer
     {
         internal static readonly DiagnosticDescriptor RXUI0005 =
@@ -13,7 +12,7 @@ namespace ReactiveUI.Analysis.Roslyn
                 "Improper usage",
                 "Use an overload that provides a scheduler",
                 "Usage",
-                DiagnosticSeverity.Warning,
+                DiagnosticSeverity.Info,
                 true);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } =

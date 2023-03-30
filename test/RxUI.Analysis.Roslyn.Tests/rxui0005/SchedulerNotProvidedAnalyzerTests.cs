@@ -2,10 +2,9 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
-using ReactiveUI.Analysis.Roslyn;
 using Xunit;
 using VerifyCS =
-    RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<ReactiveUI.Analysis.Roslyn.SchedulerNotProvidedAnalyzer>;
+    RxUI.Analysis.Roslyn.Tests.Verifiers.AnalyzerVerifier<RxUI.Analysis.Roslyn.SchedulerNotProvidedAnalyzer>;
 
 namespace RxUI.Analysis.Roslyn.Tests.rxui0005
 {

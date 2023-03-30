@@ -1,12 +1,12 @@
-using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
-namespace ReactiveUI.Analysis.Roslyn
+namespace RxUI.Analysis.Roslyn
 {
+    [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class SchedulerNotProvidedAnalyzer : ImproperUsageAnalyzer
     {
         /// <inheritdoc />
