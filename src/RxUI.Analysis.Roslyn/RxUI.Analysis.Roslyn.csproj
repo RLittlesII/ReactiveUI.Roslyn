@@ -1,10 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <Copyright>Copyright Rodney Littles, II © $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
-        <Authors>Rodney Littles, II</Authors>
-        <PackageProjectUrl>https://github.com/RLittlesII/ReactiveUI.Roslyn</PackageProjectUrl>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>preview</LangVersion>
         <NoPackageAnalysis>true</NoPackageAnalysis>
@@ -15,6 +10,9 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="..\..\AnalyzerReleases.Shipped.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\..\AnalyzerReleases.Shipped.md" />
