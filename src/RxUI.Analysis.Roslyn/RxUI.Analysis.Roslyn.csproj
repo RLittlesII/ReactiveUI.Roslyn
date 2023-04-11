@@ -12,7 +12,7 @@
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
     <ItemGroup>
-        <None Include="..\..\AnalyzerReleases.Shipped.md" Pack="true" PackagePath="\"/>
+        <None Include="..\..\AnalyzerReleases.Shipped.md" Pack="true" PackagePath="\" />
     </ItemGroup>
     <ItemGroup>
         <AdditionalFiles Include="..\..\AnalyzerReleases.Shipped.md" />
