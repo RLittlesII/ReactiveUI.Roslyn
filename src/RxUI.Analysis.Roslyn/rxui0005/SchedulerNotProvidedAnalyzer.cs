@@ -6,6 +6,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace RxUI.Analysis.Roslyn
 {
+    /// <summary>
+    /// https://stackoverflow.com/a/15396488/2088094
+    /// </summary>
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class SchedulerNotProvidedAnalyzer : ImproperUsageAnalyzer
     {
