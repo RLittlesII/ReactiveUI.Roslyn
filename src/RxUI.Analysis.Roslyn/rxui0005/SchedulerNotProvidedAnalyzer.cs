@@ -18,6 +18,25 @@ namespace RxUI.Analysis.Roslyn
             var invocationExpression = (InvocationExpressionSyntax)context.Node;
             var thing = context.SemanticModel.GetSymbolInfo(invocationExpression)
                                .Symbol as IMethodSymbol;
+            var methodDeclarations =
+                context
+                   .Node
+                   .SyntaxTree
+                   .GetRoot()
+                   .DescendantNodes()
+                   .OfType<InvocationExpressionSyntax>()
+                   .Where(
+                        x => x.Expression is MemberAccessExpressionSyntax
+                        {
+                            Name: { Identifier: { Text: "Throttle" } }
+                        }
+                    )
+                   .ToList();
+
+            foreach (var methodDeclaration in methodDeclarations)
+            {
+                var stuff = context.SemanticModel.GetSymbolInfo(methodDeclaration);
+            }
 
             if (invocationExpression.Expression is not MemberAccessExpressionSyntax memberAccessExpressionSyntax)
             {
@@ -46,6 +65,26 @@ namespace RxUI.Analysis.Roslyn
             {
                 context.ReportDiagnostic(diagnostic);
             }
+        }
+    }
+
+    public class SchedulerSymbolVisitor : SymbolVisitor
+    {
+        public override void Visit(ISymbol symbol) => base.Visit(symbol);
+    }
+    public class SchedulerSyntaxWalker : SyntaxWalker
+    {
+        public override void Visit(SyntaxNode node)
+        {
+            switch (node)
+            {
+                case InvocationExpressionSyntax invocationExpressionSyntax:
+                    break;
+                case MemberAccessExpressionSyntax:
+                    break;
+            }
+
+            base.Visit(node);
         }
     }
 }

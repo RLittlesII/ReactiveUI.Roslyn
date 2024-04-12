@@ -12,7 +12,7 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0005
     {
         [Theory]
         [InlineData(Incorrect)]
-        public async Task GivenToPropertyAssignment_WhenVerified_ThenDiagnosticsReported(string code)
+        public async Task GivenUseOfNonSchedulerOverload_WhenVerified_ThenDiagnosticsReported(string code)
         {
             // Given
             var diagnosticResult =
@@ -25,7 +25,7 @@ namespace RxUI.Analysis.Roslyn.Tests.rxui0005
 
         [Theory]
         [InlineData(Correct)]
-        public Task GivenToPropertyAssignment_WhenVerified_ThenNoDiagnosticsReported(string code) =>
+        public Task GivenUseOfSchedulerOverload_WhenVerified_ThenNoDiagnosticsReported(string code) =>
             // Given, When, Then
             VerifyCS.VerifyAnalyzerAsync(code);
 
